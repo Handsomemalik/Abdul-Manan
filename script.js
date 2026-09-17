@@ -41,19 +41,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* --------------------------------------------------------------------------
-     2. Custom Magnetic & Trailing Cursor
+     2. Custom Magnetic & Trailing Cursor (Desktop fine-pointer only)
      -------------------------------------------------------------------------- */
   const cursorDot = document.getElementById('cursor-dot');
   const cursorFollower = document.getElementById('cursor-follower');
   const viewMoreBadge = document.getElementById('view-more-badge');
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let followerX = mouseX;
-  let followerY = mouseY;
-  let isHoveringProject = false;
+  const isTouchDevice = !window.matchMedia('(pointer: fine)').matches || 'ontouchstart' in window;
 
-  if (cursorDot && cursorFollower) {
+  if (isTouchDevice) {
+    if (cursorDot) cursorDot.style.display = 'none';
+    if (cursorFollower) cursorFollower.style.display = 'none';
+    if (viewMoreBadge) viewMoreBadge.style.display = 'none';
+  } else if (cursorDot && cursorFollower) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let followerX = mouseX;
+    let followerY = mouseY;
+    let isHoveringProject = false;
+
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -98,22 +104,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Project row "View More" badge trigger
-    const projectRows = document.querySelectorAll('.project-row');
-    projectRows.forEach(row => {
-      row.addEventListener('mouseenter', () => {
-        isHoveringProject = true;
-        cursorFollower.style.opacity = '0';
-        cursorDot.style.opacity = '0';
-        if (viewMoreBadge) viewMoreBadge.classList.add('active');
+    // Project row & selected card "View More" badge trigger
+    function bindCursorTriggers() {
+      const projectRows = document.querySelectorAll('.project-row, .selected-card');
+      projectRows.forEach(row => {
+        row.addEventListener('mouseenter', () => {
+          isHoveringProject = true;
+          cursorFollower.style.opacity = '0';
+          cursorDot.style.opacity = '0';
+          if (viewMoreBadge) viewMoreBadge.classList.add('active');
+        });
+        row.addEventListener('mouseleave', () => {
+          isHoveringProject = false;
+          cursorFollower.style.opacity = '1';
+          cursorDot.style.opacity = '1';
+          if (viewMoreBadge) viewMoreBadge.classList.remove('active');
+        });
       });
-      row.addEventListener('mouseleave', () => {
-        isHoveringProject = false;
-        cursorFollower.style.opacity = '1';
-        cursorDot.style.opacity = '1';
-        if (viewMoreBadge) viewMoreBadge.classList.remove('active');
-      });
-    });
+    }
+    bindCursorTriggers();
 
     // Window boundary cursor visibility
     document.addEventListener('mouseleave', () => {
@@ -173,19 +182,34 @@ document.addEventListener('DOMContentLoaded', () => {
      5. Project Data & Fullscreen Slide-Up Modal Controller
      -------------------------------------------------------------------------- */
   let projectsData = [
-    // --- SHOPIFY DEVELOPMENT (5 Projects) ---
     {
       id: '01',
       title: 'toylicious.pk',
       category: 'Shopify Development',
       catKey: 'shopify',
       year: '2026',
+      isFeatured: true,
+      projectType: 'Client E-Commerce Project',
+      role: 'UI/UX Design & Shopify Development',
       summary: 'High-conversion Shopify e-commerce store for premium toys and kids lifestyle.',
       tech: ['Shopify', 'Liquid', 'Custom Theme', 'Payment Gateway', 'Conversion UI'],
-      description: 'A bespoke Shopify e-commerce storefront created for Toylicious Pakistan. Features customized Liquid templating, frictionless mobile-first checkout, dynamic product bundles, automated inventory tracking, and localized cash on delivery and online payment gateways.',
+      description: 'A bespoke Shopify e-commerce storefront created for Toylicious Pakistan. Features customized Liquid templating, frictionless mobile-first checkout, dynamic product bundles, and localized payment gateways.',
+      caseStudy: {
+        overview: 'A dedicated Shopify storefront for Toylicious Pakistan designed to present kids lifestyle and toy collections with joyful visual appeal and fast mobile purchasing.',
+        myRole: 'UI/UX design of storefront layouts, custom Liquid theme implementation, product catalog structuring, and localized checkout integration.',
+        problemGoal: 'Provide parents and shoppers with a friction-free mobile shopping experience with clean categorization, rapid product filtering, and trusted payment flows.',
+        designDev: 'Developed a custom theme built on Shopify\'s latest architecture, utilizing responsive grid layouts, custom slideout mini-cart, and optimized image delivery.',
+        keyFeatures: [
+          'Frictionless mobile navigation and instant product filtering',
+          'Dynamic bundle builder and product recommendation widgets',
+          'Slideout cart drawer with free-shipping threshold bar',
+          'Localized Cash-on-Delivery and online gateway integration'
+        ],
+        technology: 'Shopify Liquid, HTML5, CSS3, Vanilla JavaScript',
+        finalResult: 'A fast, fully responsive e-commerce storefront operating live with smooth checkout and intuitive catalog discovery.'
+      },
       liveUrl: 'https://toylicious.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
       id: '02',
@@ -193,198 +217,360 @@ document.addEventListener('DOMContentLoaded', () => {
       category: 'Shopify Development',
       catKey: 'shopify',
       year: '2025',
+      isFeatured: true,
+      projectType: 'Client E-Commerce Project',
+      role: 'UI/UX & Frontend Development',
       summary: 'Designer luxury apparel and eastern fashion boutique online store.',
-      tech: ['Shopify Plus', 'Custom CSS', 'Speed Optimization', 'Klaviyo', 'Lookbook UI'],
-      description: 'High-end fashion e-commerce platform built for Bunaaz. Crafted with editorial luxury aesthetics, high-resolution lookbook galleries, real-time size guides, quick-cart slideout drawer, and ultra-fast page load times.',
+      tech: ['Shopify Plus', 'Liquid', 'Lookbook UI', 'Custom CSS', 'Speed Optimization'],
+      description: 'High-end fashion e-commerce platform built for Bunaaz. Crafted with editorial luxury aesthetics, high-resolution lookbook galleries, real-time size guides, and ultra-fast page load times.',
+      caseStudy: {
+        overview: 'An editorial luxury fashion portal for designer pret and formal wear, combining high-fashion visual storytelling with a streamlined shopping flow.',
+        myRole: 'End-to-end UI design, custom theme customization, lookbook grid development, and mobile responsiveness tuning.',
+        problemGoal: 'Convey brand elegance and artisanal fabric detailing while maintaining rapid browsing speeds across cellular mobile connections.',
+        designDev: 'Structured an editorial aesthetic using refined typography, spacious layout grids, sticky Add-to-Bag interactions, and responsive lookbook carousels.',
+        keyFeatures: [
+          'Interactive collection lookbook with direct product tagging',
+          'Custom size guide modal with tailored measurements',
+          'Smooth collection filtering by fabric, cut, and occasion',
+          'Instant slideout cart with integrated currency selection'
+        ],
+        technology: 'Shopify Plus, Liquid, CSS Grid/Flexbox, JavaScript',
+        finalResult: 'An elegant fashion destination with editorial visual hierarchy and streamlined mobile checkout.'
+      },
       liveUrl: 'https://bunaaz.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
       id: '03',
-      title: 'tfgpak.com',
-      category: 'Shopify Development',
-      catKey: 'shopify',
-      year: '2025',
-      summary: 'Handcrafted leather goods, footwear & accessories e-commerce store.',
-      tech: ['Shopify', 'Liquid', 'Custom UI/UX', 'SEO Optimization', 'Multi-Currency'],
-      description: 'E-commerce platform for TFG Pakistan featuring intuitive footwear sizing guides, collection filters, international multi-currency pricing, and responsive mobile architecture.',
-      liveUrl: 'https://tfgpak.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
-    },
-    {
-      id: '04',
-      title: 'amilya.pk',
-      category: 'Shopify Development',
-      catKey: 'shopify',
-      year: '2025',
-      summary: 'Women’s designer pret, festive collections & eastern wear brand store.',
-      tech: ['Shopify', 'Responsive Web', 'Fast Checkout', 'Analytics', 'Custom Liquid'],
-      description: 'Comprehensive Shopify store engineered for Amilya, emphasizing rapid mobile navigation, seasonal collection drops, promotional banner popups, and automated order notifications.',
-      liveUrl: 'https://amilya.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
-    },
-    {
-      id: '05',
-      title: 'palakandmehak.com',
-      category: 'Shopify Development',
-      catKey: 'shopify',
-      year: '2024',
-      summary: 'Exclusive couture pret & handcrafted designer jewelry boutique.',
-      tech: ['Shopify', 'Custom Theme', 'Liquid', 'Social Commerce', 'International Shipping'],
-      description: 'Luxury digital boutique for Palak & Mehak. Engineered with custom grid layouts, high-fashion typography, social proof feeds, custom order inquiry forms, and worldwide shipping calculation.',
-      liveUrl: 'https://palakandmehak.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
-    },
-
-    // --- AI PROJECTS (3 Projects) ---
-    {
-      id: '06',
       title: 'AI Email Writer',
       category: 'AI Projects',
       catKey: 'ai',
       year: '2026',
-      summary: '3D animated site for an AI email-writing & smart copy generator.',
-      tech: ['HTML', 'CSS', 'JavaScript', '3D Motion', 'REST APIs', 'LLM Prompting'],
-      description: 'An AI-powered communication assistant featuring interactive 3D product visualizers and fluid physics. Generates executive proposals, client follow-ups, and sales outreach with customizable tone and real-time composition preview.',
+      isFeatured: true,
+      projectType: 'Concept / Personal Project',
+      role: 'Interface Design & Web Development',
+      summary: 'Interactive modern web application for AI email-writing and smart copy generation.',
+      tech: ['UI/UX Design', 'JavaScript', 'HTML/CSS', 'REST APIs', 'AI Prompting'],
+      description: 'An AI-powered communication assistant interface featuring responsive composition tools, customized tone selection, and instant real-time draft generation.',
+      caseStudy: {
+        overview: 'A web interface built to explore how professionals can generate structured, tone-adjusted emails and proposals through a clean, distraction-free workflow.',
+        myRole: 'Concept formulation, UX wireframing, dark modern visual design, and interactive frontend implementation.',
+        problemGoal: 'Streamline email drafting by replacing blank text areas with guided prompts, tone toggles, and instant previewing.',
+        designDev: 'Designed a sleek dark UI with focused typography, micro-interactions, responsive form controls, and simulated real-time generation previews.',
+        keyFeatures: [
+          'Multi-tone selection (Formal, Concise, Sales Outreach, Executive)',
+          'Real-time preview pane with instant one-click copy',
+          'Responsive dark interface tailored for rapid desktop and mobile use',
+          'Customizable prompt parameter controls'
+        ],
+        technology: 'Vanilla JavaScript, HTML5, Modern CSS, REST API integration architecture',
+        finalResult: 'A focused, functional web application interface demonstrating clean UX for AI-assisted writing tools.'
+      },
       liveUrl: '#',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: false
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '07',
-      title: 'AI Finance Registrar Agent',
-      category: 'AI Projects',
-      catKey: 'ai',
-      year: '2025',
-      summary: 'Autonomous financial ledger entry, invoice parsing & tax classification agent.',
-      tech: ['Python', 'Node.js', 'LLM Agent', 'Antigravity IDE', 'Financial Analytics'],
-      description: 'Autonomous financial bookkeeping agent engineered with Antigravity IDE. Automatically digests incoming invoice receipts, classifies transactions into double-entry accounting records, reconciles bank records, and detects recurring anomalies.',
-      liveUrl: '#',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
-    },
-    {
-      id: '08',
-      title: 'AI Interviewer Agent',
-      category: 'AI Projects',
-      catKey: 'ai',
-      year: '2025',
-      summary: 'Interactive automated candidate assessment, mock interview & evaluation agent.',
-      tech: ['AI/LLM', 'React', 'Voice/Speech Analysis', 'Antigravity IDE', 'WebRTC'],
-      description: 'Autonomous conversational agent designed for technical and behavioral candidate assessments. Features real-time voice and transcript analysis, contextual follow-up questioning, objective scoring rubrics, and automated candidate summaries.',
-      liveUrl: '#',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: false
-    },
-
-    // --- WORDPRESS DEVELOPMENT (8 Projects) ---
-    {
-      id: '09',
+      id: '04',
       title: 'ecotech.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2025',
+      isFeatured: true,
+      projectType: 'Client Web Project',
+      role: 'Web Development & UI Design',
       summary: 'Green energy, solar technology & sustainable engineering corporate website.',
-      tech: ['WordPress', 'Elementor Pro', 'Custom ROI Calculator', 'SEO Optimization'],
-      description: 'Corporate business website for Ecotech Pakistan. Includes an interactive solar savings calculator, technical product datasheets, installation portfolio galleries, and direct WhatsApp lead generation.',
+      tech: ['WordPress', 'Elementor Pro', 'Custom ROI Calculator', 'Responsive UI'],
+      description: 'Corporate business website for Ecotech Pakistan. Includes an interactive solar savings calculator, technical product datasheets, installation portfolio galleries, and direct lead generation.',
+      caseStudy: {
+        overview: 'A modern corporate platform for a renewable energy company, built to educate commercial and residential clients on solar solutions.',
+        myRole: 'Corporate web design, WordPress theme development, solar ROI calculation logic, and responsive optimization.',
+        problemGoal: 'Make complex solar technical specifications clear and accessible while generating qualified installation leads.',
+        designDev: 'Engineered clear visual sections for residential, commercial, and industrial tiers, alongside an intuitive savings estimator tool.',
+        keyFeatures: [
+          'Interactive solar ROI and estimated energy savings calculator',
+          'Downloadable technical datasheets for tier-1 inverters and panels',
+          'Completed project showcase gallery with location filters',
+          'Direct WhatsApp and quotation inquiry routing'
+        ],
+        technology: 'WordPress, Elementor, Custom JavaScript, CSS3',
+        finalResult: 'A credible corporate presence establishing brand authority and generating direct inquiries.'
+      },
       liveUrl: 'https://ecotech.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '10',
+      id: '05',
+      title: 'AI Interviewer Agent',
+      category: 'AI Projects',
+      catKey: 'ai',
+      year: '2025',
+      isFeatured: true,
+      projectType: 'Experimental Project',
+      role: 'UI/UX Concept & AI Integration',
+      summary: 'Interactive automated candidate assessment, mock interview & evaluation interface.',
+      tech: ['AI/LLM', 'React', 'Voice/Text UI', 'Prompt Engineering'],
+      description: 'Conversational interface designed for technical candidate assessments. Features guided questioning, structured prompt chains, and automated candidate performance rubrics.',
+      caseStudy: {
+        overview: 'An experimental web interface exploring automated mock interviews with contextual follow-up questions and standardized evaluation criteria.',
+        myRole: 'UX flow architecture, conversational UI design, and interactive prototype implementation.',
+        problemGoal: 'Design an objective, low-anxiety interview experience that guides candidates through structured evaluation prompts.',
+        designDev: 'Built a clean, distraction-free conversational screen with real-time timers, question status indicators, and structured evaluation rubrics.',
+        keyFeatures: [
+          'Context-aware follow-up question sequence',
+          'Structured scoring rubric display across technical competencies',
+          'Accessible audio/text interface layout',
+          'Concise candidate summary report generation'
+        ],
+        technology: 'React, JavaScript, Web APIs, CSS3',
+        finalResult: 'A clear, working prototype demonstrating intuitive interaction design for conversational assessment tools.'
+      },
+      liveUrl: '#',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '06',
       title: 'moseyparis.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2025',
+      isFeatured: true,
+      projectType: 'Client Web Project',
+      role: 'Web Development & Theme Customization',
       summary: 'Luxury fragrance & European lifestyle brand portal and e-commerce experience.',
-      tech: ['WordPress', 'WooCommerce', 'Bespoke Theme', 'Stripe', 'Perfume Visualizer'],
-      description: 'Editorial luxury e-commerce experience built for Mosey Paris. Features custom typography, interactive fragrance pyramid diagrams (top, heart, and base notes), and multi-currency international billing.',
+      tech: ['WordPress', 'WooCommerce', 'Bespoke Theme', 'Perfume Visualizer'],
+      description: 'Editorial luxury e-commerce experience built for Mosey Paris. Features custom typography, interactive fragrance pyramid diagrams, and multi-currency billing.',
+      caseStudy: {
+        overview: 'A brand portal and boutique online store for luxury fragrances, blending editorial European aesthetics with an intuitive shopping experience.',
+        myRole: 'Theme customization, WooCommerce store setup, fragrance notes visualizer styling, and responsive QA.',
+        problemGoal: 'Communicate the olfactory character of artisanal perfumes digitally through immersive visuals and clear ingredient hierarchies.',
+        designDev: 'Designed high-contrast editorial layouts with bespoke typography and interactive fragrance note diagrams (top, heart, base).',
+        keyFeatures: [
+          'Interactive fragrance pyramid breakdown',
+          'Minimalist product presentation with ingredient stories',
+          'Seamless WooCommerce checkout with currency switching',
+          'Refined mobile navigation and product zoom'
+        ],
+        technology: 'WordPress, WooCommerce, Custom CSS, JavaScript',
+        finalResult: 'A distinctive digital storefront reflecting luxury perfumery standards.'
+      },
       liveUrl: 'https://moseyparis.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '11',
+      id: '07',
+      title: 'tfgpak.com',
+      category: 'Shopify Development',
+      catKey: 'shopify',
+      year: '2025',
+      isFeatured: false,
+      projectType: 'Client E-Commerce Project',
+      role: 'Shopify Storefront Developer',
+      summary: 'Handcrafted leather goods, footwear & accessories e-commerce store.',
+      tech: ['Shopify', 'Liquid', 'Custom UI/UX', 'Multi-Currency'],
+      description: 'E-commerce platform for TFG Pakistan featuring intuitive footwear sizing guides, collection filters, and responsive mobile architecture.',
+      caseStudy: {
+        overview: 'Storefront for artisanal leather goods and footwear.',
+        myRole: 'Shopify development, collection filters, sizing guide UI.',
+        problemGoal: 'Streamline customer product selection and international ordering.',
+        designDev: 'Structured around product craftsmanship photography with responsive grid layouts.',
+        keyFeatures: ['Footwear sizing guide modal', 'Collection filters', 'Multi-currency checkout'],
+        technology: 'Shopify, Liquid, CSS3, JavaScript',
+        finalResult: 'A reliable, responsive leather goods online store.'
+      },
+      liveUrl: 'https://tfgpak.com',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '08',
+      title: 'amilya.pk',
+      category: 'Shopify Development',
+      catKey: 'shopify',
+      year: '2025',
+      isFeatured: false,
+      projectType: 'Client E-Commerce Project',
+      role: 'Shopify Theme Developer',
+      summary: 'Women’s designer pret, festive collections & eastern wear brand store.',
+      tech: ['Shopify', 'Responsive Web', 'Fast Checkout', 'Custom Liquid'],
+      description: 'Comprehensive Shopify store engineered for Amilya, emphasizing rapid mobile navigation, seasonal collection drops, and automated order notifications.',
+      caseStudy: {
+        overview: 'Fashion store tailored for rapid seasonal pret releases.',
+        myRole: 'Theme development, mobile layout optimization, cart drawer.',
+        problemGoal: 'Enable quick browsing and single-tap checkout on mobile devices.',
+        designDev: 'Applied high-density product cards and sticky cart interactions.',
+        keyFeatures: ['Mobile sticky checkout', 'Collection tabs', 'Order notifications'],
+        technology: 'Shopify, Liquid, JavaScript',
+        finalResult: 'Fast, accessible mobile fashion store.'
+      },
+      liveUrl: 'https://amilya.pk',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '09',
+      title: 'palakandmehak.com',
+      category: 'Shopify Development',
+      catKey: 'shopify',
+      year: '2024',
+      isFeatured: false,
+      projectType: 'Client E-Commerce Project',
+      role: 'Shopify Theme Customizer',
+      summary: 'Exclusive couture pret & handcrafted designer jewelry boutique.',
+      tech: ['Shopify', 'Custom Theme', 'Liquid', 'International Shipping'],
+      description: 'Luxury digital boutique for Palak & Mehak. Engineered with custom grid layouts, high-fashion typography, and custom order inquiry forms.',
+      caseStudy: {
+        overview: 'Luxury couture and designer jewelry boutique.',
+        myRole: 'Layout design, custom inquiries form, theme customization.',
+        problemGoal: 'Showcase high-value jewelry and bespoke apparel with clarity.',
+        designDev: 'Clean gallery grids with zoom inspection and direct consultation links.',
+        keyFeatures: ['Jewelry detail zoom', 'Bespoke order consultation modal', 'Worldwide shipping support'],
+        technology: 'Shopify, Liquid, CSS3',
+        finalResult: 'A sophisticated digital storefront for bespoke couture.'
+      },
+      liveUrl: 'https://palakandmehak.com',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '10',
       title: 'royalwrist.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2024',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'WordPress Developer',
       summary: 'High-end timepiece & luxury watch collection retailer website.',
-      tech: ['WordPress', 'WooCommerce', 'Custom Brand Filters', 'High-Speed CDN'],
-      description: 'Luxury watch retail platform with brand catalogs, serial authenticity inquiry forms, advanced facet filtering, and automated customer order notifications.',
+      tech: ['WordPress', 'WooCommerce', 'Custom Brand Filters'],
+      description: 'Luxury watch retail platform with brand catalogs, serial authenticity inquiry forms, and advanced facet filtering.',
+      caseStudy: {
+        overview: 'Watch catalog and retail portal for curated timepieces.',
+        myRole: 'WordPress architecture, catalog filters, serial verification forms.',
+        problemGoal: 'Provide confidence and effortless browsing for luxury watch enthusiasts.',
+        designDev: 'High-contrast dark watch displays with technical specification panels.',
+        keyFeatures: ['Facet filtering by movement and brand', 'Serial authenticity inquiry', 'Fast search'],
+        technology: 'WordPress, WooCommerce, CSS3, JavaScript',
+        finalResult: 'A polished timepiece catalog with structured inquiry workflows.'
+      },
       liveUrl: 'https://royalwrist.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '12',
+      id: '11',
       title: 'luxstyle.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2024',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'WordPress & WooCommerce Developer',
       summary: 'Modern beauty, cosmetic & lifestyle store with optimized checkout.',
-      tech: ['WordPress', 'Elementor', 'WooCommerce', 'Speed Optimization', 'Review System'],
-      description: 'Fast, mobile-optimized WordPress store for LuxStyle. Features customer review visualizers, bundle promotions, upselling drawers, and smooth one-page checkout.',
+      tech: ['WordPress', 'Elementor', 'WooCommerce', 'Speed Optimization'],
+      description: 'Fast, mobile-optimized WordPress store for LuxStyle. Features customer review visualizers, bundle promotions, and smooth one-page checkout.',
+      caseStudy: {
+        overview: 'Cosmetic and beauty e-commerce store with high mobile traffic.',
+        myRole: 'Store design, checkout speed optimization, review integrations.',
+        problemGoal: 'Reduce cart abandonment through an intuitive one-page checkout flow.',
+        designDev: 'Clean, light-themed product pages with responsive swatch selectors.',
+        keyFeatures: ['One-page checkout', 'Product reviews system', 'Bundle promos'],
+        technology: 'WordPress, WooCommerce, Elementor',
+        finalResult: 'A functional beauty store with fast loading and streamlined purchases.'
+      },
       liveUrl: 'https://luxstyle.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '13',
+      id: '12',
       title: 'ebone.net.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2024',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'Corporate Web Developer',
       summary: 'Corporate telecommunications, fiber & ISP infrastructure platform.',
-      tech: ['WordPress', 'Corporate Portal', 'Interactive Coverage Map', 'Ticket System'],
-      description: 'Enterprise ISP portal built for E-Bone Networks. Includes interactive network coverage checking, broadband package comparisons, corporate SLA inquiry forms, and customer support integration.',
+      tech: ['WordPress', 'Corporate Portal', 'Coverage Map', 'Ticket System'],
+      description: 'Enterprise ISP portal built for E-Bone Networks. Includes interactive network coverage checking, broadband package comparisons, and corporate SLA inquiry forms.',
+      caseStudy: {
+        overview: 'Corporate telecommunications portal for fiber and broadband services.',
+        myRole: 'Corporate web layout, coverage map UI, package pricing comparison table.',
+        problemGoal: 'Clearly display broadband packages and allow visitors to check coverage in their sector.',
+        designDev: 'Structured B2B layout with corporate blue accents and clean comparison matrix.',
+        keyFeatures: ['Package comparison matrix', 'Coverage inquiry form', 'Corporate SLA details'],
+        technology: 'WordPress, Custom CSS, JavaScript',
+        finalResult: 'A professional ISP portal serving corporate and residential inquiries.'
+      },
       liveUrl: 'https://ebone.net.pk',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '14',
+      id: '13',
       title: 'apnagharapnizameen.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2023',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'WordPress Developer',
       summary: 'Real estate, plot development & property listings marketplace platform.',
       tech: ['WordPress', 'Advanced Custom Fields', 'Map Integration', 'WhatsApp Leads'],
-      description: 'Comprehensive property portal for Apna Ghar Apni Zameen. Built with custom post types for residential and commercial listings, installment schedule calculators, and direct WhatsApp agent routing.',
+      description: 'Comprehensive property portal for Apna Ghar Apni Zameen. Built with custom post types for residential and commercial listings, and installment schedule calculators.',
+      caseStudy: {
+        overview: 'Real estate listing platform for residential plots and developments.',
+        myRole: 'Custom post types, property detail templates, installment schedule calculator.',
+        problemGoal: 'Allow buyers to explore plot sizes, payment plans, and connect directly with agents.',
+        designDev: 'Structured property cards with key specs (marla/sqft, location, price, payment schedule).',
+        keyFeatures: ['Property search filters', 'Installment schedule breakdown', 'Direct agent WhatsApp link'],
+        technology: 'WordPress, ACF, Custom PHP/CSS',
+        finalResult: 'An organized real estate directory with direct lead generation.'
+      },
       liveUrl: 'https://apnagharapnizameen.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '15',
+      id: '14',
       title: 'pakref.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2023',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'Web Developer',
       summary: 'Industrial refrigeration, HVAC & cooling technology commercial catalog.',
       tech: ['WordPress', 'B2B Product Catalog', 'RFQ System', 'Technical Documentation'],
-      description: 'Commercial refrigeration platform built for PakRef. Includes technical downloadable specifications, compressor parts catalogs, quotation request modules, and multi-category filtering.',
+      description: 'Commercial refrigeration platform built for PakRef. Includes technical downloadable specifications, compressor parts catalogs, and quotation request modules.',
+      caseStudy: {
+        overview: 'B2B industrial cooling equipment and refrigeration parts catalog.',
+        myRole: 'Catalog structuring, Request-for-Quote (RFQ) forms, datasheet downloads.',
+        problemGoal: 'Organize hundreds of industrial parts with exact technical model numbers.',
+        designDev: 'Clean technical table views with model filtering and one-click RFQ submission.',
+        keyFeatures: ['Model-based search', 'Downloadable technical PDF specs', 'Direct RFQ cart'],
+        technology: 'WordPress, Custom Catalog Theme, CSS3',
+        finalResult: 'A clear B2B procurement catalog for industrial equipment.'
+      },
       liveUrl: 'https://pakref.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '16',
+      id: '15',
       title: 'alternativemedicinestore.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2023',
+      isFeatured: false,
+      projectType: 'Client Web Project',
+      role: 'WordPress & WooCommerce Developer',
       summary: 'Natural health, organic supplements & herbal wellness online store.',
-      tech: ['WordPress', 'WooCommerce', 'Prescription Upload', 'SSL Security', 'Filter System'],
-      description: 'Holistic health e-commerce portal for Alternative Medicine Store. Features herbal category taxonomy, ailment-based searching, doctor appointment forms, and secure digital payments.',
+      tech: ['WordPress', 'WooCommerce', 'Prescription Upload', 'Filter System'],
+      description: 'Holistic health e-commerce portal for Alternative Medicine Store. Features herbal category taxonomy, ailment-based searching, and secure digital payments.',
+      caseStudy: {
+        overview: 'Herbal supplements and holistic healthcare online store.',
+        myRole: 'Store setup, category taxonomy design, ailment-based search.',
+        problemGoal: 'Help wellness customers find products corresponding to specific dietary or wellness needs.',
+        designDev: 'Clean herbal-aesthetic storefront with categorized wellness collections.',
+        keyFeatures: ['Ailment taxonomy filter', 'Prescription inquiry upload', 'Secure checkout'],
+        technology: 'WordPress, WooCommerce, CSS3',
+        finalResult: 'A trusted wellness store with clear category navigation.'
+      },
       liveUrl: 'https://alternativemedicinestore.com',
-      githubUrl: 'https://github.com/Handsomemalik',
-      isClientProject: true
+      githubUrl: 'https://github.com/Handsomemalik'
     }
   ];
 
@@ -398,28 +584,84 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalLiveBtn = document.getElementById('modalLiveBtn');
   const modalGithubBtn = document.getElementById('modalGithubBtn');
 
+  // Case Study Elements
+  const modalRoleVal = document.getElementById('modalRoleVal');
+  const modalProblemGoalVal = document.getElementById('modalProblemGoalVal');
+  const modalDesignDevVal = document.getElementById('modalDesignDevVal');
+  const modalKeyFeaturesList = document.getElementById('modalKeyFeaturesList');
+  const modalFinalResultVal = document.getElementById('modalFinalResultVal');
+
   // Open modal with specific project index
   function openProjectModal(index) {
     const project = projectsData[index];
     if (!project || !projectModal) return;
 
-    modalIndexTag.textContent = `${project.id} / ${String(projectsData.length).padStart(2, '0')}`;
-    modalCategoryTag.textContent = project.category;
-    modalTitle.textContent = project.title;
-    modalDescription.textContent = project.description;
+    if (modalIndexTag) {
+      modalIndexTag.textContent = `${String(index + 1).padStart(2, '0')} / ${String(projectsData.length).padStart(2, '0')}`;
+    }
+    if (modalCategoryTag) {
+      const typeStr = project.projectType || (project.isClientProject ? 'Client Project' : 'Selected Project');
+      modalCategoryTag.textContent = `${project.category} · ${typeStr}`;
+    }
+    if (modalTitle) modalTitle.textContent = project.title;
+    if (modalDescription) modalDescription.textContent = project.description || project.summary || '';
+
+    // Structured Case Study Content
+    const cs = project.caseStudy || {};
+    if (modalRoleVal) {
+      modalRoleVal.textContent = cs.myRole || cs.role || project.role || 'UI/UX Designer & Web Developer';
+    }
+    if (modalProblemGoalVal) {
+      modalProblemGoalVal.textContent = cs.problemGoal || cs.problem || 'Deliver a high-impact, modern digital experience with optimal usability.';
+    }
+    if (modalDesignDevVal) {
+      modalDesignDevVal.textContent = cs.designDev || 'Engineered responsive interface and custom components with clean design patterns.';
+    }
+    if (modalKeyFeaturesList) {
+      modalKeyFeaturesList.innerHTML = '';
+      const feats = Array.isArray(cs.keyFeatures) && cs.keyFeatures.length > 0
+        ? cs.keyFeatures
+        : (project.summary ? [project.summary] : ['Responsive layout', 'Optimized performance']);
+      feats.forEach(feat => {
+        const li = document.createElement('li');
+        li.textContent = feat;
+        modalKeyFeaturesList.appendChild(li);
+      });
+    }
+    if (modalFinalResultVal) {
+      modalFinalResultVal.textContent = cs.finalResult || 'Successfully launched and deployed responsive web experience.';
+    }
 
     // Clear and fill tech badges
-    modalTechTags.innerHTML = '';
-    project.tech.forEach(techItem => {
-      const pill = document.createElement('span');
-      pill.className = 'modal-tech-pill';
-      pill.textContent = techItem;
-      modalTechTags.appendChild(pill);
-    });
+    if (modalTechTags) {
+      modalTechTags.innerHTML = '';
+      const techItems = Array.isArray(project.tech) ? project.tech : (project.tech ? [project.tech] : []);
+      techItems.forEach(techItem => {
+        const pill = document.createElement('span');
+        pill.className = 'modal-tech-pill';
+        pill.textContent = techItem;
+        modalTechTags.appendChild(pill);
+      });
+    }
 
-    // Update buttons
-    modalLiveBtn.href = project.liveUrl;
-    modalGithubBtn.href = project.githubUrl;
+    // Update Action Buttons
+    if (modalLiveBtn) {
+      if (project.liveUrl && project.liveUrl !== '#' && project.liveUrl.trim() !== '') {
+        modalLiveBtn.style.display = 'inline-flex';
+        modalLiveBtn.href = project.liveUrl;
+      } else {
+        modalLiveBtn.style.display = 'none';
+      }
+    }
+
+    if (modalGithubBtn) {
+      if (project.githubUrl && project.githubUrl !== '#' && project.githubUrl.trim() !== '') {
+        modalGithubBtn.style.display = 'inline-flex';
+        modalGithubBtn.href = project.githubUrl;
+      } else {
+        modalGithubBtn.style.display = 'none';
+      }
+    }
 
     projectModal.classList.add('open');
     projectModal.setAttribute('aria-hidden', 'false');
@@ -437,14 +679,26 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
-  // Attach click to each project row
+  // Bind click triggers for project rows and featured selected cards
   let rows = document.querySelectorAll('.project-row');
-  rows.forEach((row) => {
-    row.addEventListener('click', () => {
-      const idx = parseInt(row.getAttribute('data-project-index'), 10);
-      if (!isNaN(idx)) openProjectModal(idx);
+  function bindModalTriggers() {
+    rows = document.querySelectorAll('.project-row');
+    rows.forEach((row) => {
+      row.onclick = () => {
+        const idx = parseInt(row.getAttribute('data-project-index'), 10);
+        if (!isNaN(idx)) openProjectModal(idx);
+      };
     });
-  });
+
+    const selectedCards = document.querySelectorAll('.selected-card');
+    selectedCards.forEach((card) => {
+      card.onclick = () => {
+        const idx = parseInt(card.getAttribute('data-project-index'), 10);
+        if (!isNaN(idx)) openProjectModal(idx);
+      };
+    });
+  }
+  bindModalTriggers();
 
   // Close triggers
   modalCloseBtn?.addEventListener('click', closeProjectModal);
@@ -639,16 +893,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cmsData.profile) {
       const p = cmsData.profile;
       if (p.title) {
-        document.querySelectorAll('.hero-tag:first-child').forEach(el => el.textContent = p.title);
-      }
-      if (p.location) {
-        document.querySelectorAll('.hero-tag:nth-child(3)').forEach(el => el.textContent = p.location);
-      }
-      if (p.experienceYears) {
-        document.querySelectorAll('.hero-tag:nth-child(5)').forEach(el => el.textContent = p.experienceYears);
-      }
-      if (p.projectsCompleted) {
-        document.querySelectorAll('.hero-tag:nth-child(7)').forEach(el => el.textContent = p.projectsCompleted);
+        const titleTag = document.querySelector('.hero-tags .hero-tag:first-child');
+        if (titleTag) titleTag.textContent = p.title;
       }
       if (p.tagline) {
         const taglineEl = document.querySelector('.hero-tagline');
@@ -728,14 +974,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const countWp = document.querySelector('.category-tab-btn[data-category="wordpress"] .category-tab-count');
         if (countWp) countWp.textContent = wpProjects.length;
 
-        // Rebind click listeners to new project rows
-        rows = document.querySelectorAll('.project-row');
-        rows.forEach((row) => {
-          row.addEventListener('click', () => {
-            const idx = parseInt(row.getAttribute('data-project-index'), 10);
-            if (!isNaN(idx)) openProjectModal(idx);
-          });
-        });
+        // Rebind click listeners to project rows & selected featured cards
+        bindModalTriggers();
 
         // Rebind group banners
         categoryBanners = document.querySelectorAll('.category-group-banner');
