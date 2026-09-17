@@ -1,0 +1,13 @@
+{
+  "name": "abdul-manan-portfolio-cms",
+  "version": "1.0.0",
+  "description": "Abdul Manan — Portfolio & Content Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["portfolio", "cms", "ui-ux", "web-developer"],
+  "author": "Abdul Manan",
+  "license": "MIT"
+}

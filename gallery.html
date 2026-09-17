@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Abdul Manan | Visual Moments &amp; Chronicles</title>
+  <meta name="description" content="Exclusive visual gallery of Abdul Manan — curated portraits, creative moments, and memorable milestones.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       GALLERY STYLES — ABDUL MANAN LUXURY DARK EDITION
+       ========================================================================== */
+    :root {
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+      --font-grotesk: 'Space Grotesk', monospace;
+
+      --color-bg: #0A0A0C;
+      --color-card-bg: #131316;
+      --color-text: #FFFFFF;
+      --color-text-muted: rgba(255, 255, 255, 0.65);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-gold: #D4AF37;
+      --color-gold-light: #F5D061;
+      --color-gold-glow: rgba(212, 175, 55, 0.35);
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+    }
+
+    .orb-1 {
+      top: -10%;
+      left: 15%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, #D4AF37 0%, #B38728 50%, transparent 75%);
+    }
+
+    .orb-2 {
+      top: 45%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #6366F1 0%, #4F46E5 45%, transparent 75%);
+      opacity: 0.10;
+    }
+
+    .orb-3 {
+      bottom: -15%;
+      left: 20%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, #D4AF37 0%, #7A550C 50%, transparent 75%);
+      opacity: 0.12;
+    }
+
+    /* Top Sticky Navigation */
+    .gallery-nav {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 12, 0.78);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--color-border);
+      padding: 14px clamp(1.25rem, 4vw, 3.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--color-text-muted);
+      font-family: var(--font-grotesk);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s var(--ease-out);
+    }
+
+    .nav-back-link:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateX(-3px);
+    }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-grotesk);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #D4AF37;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* Main Container */
+    main.gallery-page-main {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 3.5rem) clamp(4rem, 8vw, 6rem);
+    }
+
+    /* Hero Header */
+    .gallery-header {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto clamp(2.5rem, 5vw, 4.5rem);
+    }
+
+    .gallery-eyebrow {
+      display: inline-block;
+      font-family: var(--font-grotesk);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #D4AF37;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .gallery-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+
+      /* Liquid Gold Shimmer */
+      background: linear-gradient(
+        115deg,
+        #FFFFFF 0%,
+        #FFF6DC 18%,
+        #E8C15A 38%,
+        #B58728 50%,
+        #FFFFFF 60%,
+        #F5D061 78%,
+        #FFFFFF 100%
+      );
+      background-size: 260% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: goldFlowTitle 10s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.25));
+    }
+
+    @keyframes goldFlowTitle {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .gallery-subtitle {
+      font-family: var(--font-sans);
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .gallery-info-pills {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .info-pill {
+      font-family: var(--font-grotesk);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    /* ==========================================================================
+       3 IN A ROW GRID LAYOUT (As explicitly requested by user)
+       ========================================================================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(1.25rem, 2.2vw, 2.25rem);
+    }
+
+    @media (max-width: 980px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
+
+    /* Photo Card */
+    .gallery-card {
+      position: relative;
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      cursor: pointer;
+      outline: none;
+      transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), border-color 0.45s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .gallery-card:hover,
+    .gallery-card:focus-visible {
+      transform: translateY(-8px);
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.65), 0 0 30px rgba(212, 175, 55, 0.2);
+    }
+
+    .gallery-card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      transition: transform 0.65s var(--ease-out), filter 0.45s ease;
+      display: block;
+      background: #19191C;
+    }
+
+    .gallery-card:hover .gallery-img {
+      transform: scale(1.06);
+      filter: contrast(104%) brightness(102%);
+    }
+
+    /* Card Hover Overlay */
+    .gallery-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 10, 12, 0.15) 0%,
+        transparent 40%,
+        rgba(10, 10, 12, 0.85) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.25rem;
+      opacity: 0;
+      transition: opacity 0.35s var(--ease-out);
+      pointer-events: none;
+    }
+
+    .gallery-card:hover .gallery-card-overlay,
+    .gallery-card:focus-visible .gallery-card-overlay {
+      opacity: 1;
+    }
+
+    .card-index-tag {
+      align-self: flex-start;
+      font-family: var(--font-grotesk);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: rgba(10, 10, 12, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+    }
+
+    .card-expand-pill {
+      align-self: flex-end;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-grotesk);
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #0A0A0C;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F5D061 100%);
+      padding: 7px 15px;
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      letter-spacing: 0.04em;
+      transform: translateY(10px);
+      transition: transform 0.35s var(--ease-out);
+    }
+
+    .gallery-card:hover .card-expand-pill {
+      transform: translateY(0);
+    }
+
+    /* Bottom Signature & Footer */
+    .gallery-footer {
+      margin-top: clamp(4rem, 8vw, 6rem);
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-left-info {
+      font-family: var(--font-grotesk);
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    .footer-back-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: var(--font-grotesk);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #D4AF37;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: rgba(212, 175, 55, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .footer-back-cta:hover {
+      background: #D4AF37;
+      color: #0A0A0C;
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+    }
+
+    /* ==========================================================================
+       FULLSCREEN HIGH-DEFINITION LIGHTBOX VIEWER
+       ========================================================================== */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(8, 8, 10, 0.96);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease-out), visibility 0.35s ease;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Lightbox Top Controls */
+    .lightbox-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .lightbox-counter {
+      font-family: var(--font-grotesk);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #D4AF37;
+    }
+
+    .lightbox-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lightbox-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .lightbox-btn:hover {
+      background: #FFFFFF;
+      color: #0A0A0C;
+      border-color: #FFFFFF;
+      transform: scale(1.08);
+    }
+
+    .lightbox-close-btn:hover {
+      background: #EF4444;
+      border-color: #EF4444;
+      color: #FFFFFF;
+    }
+
+    /* Lightbox Main Stage */
+    .lightbox-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 20px clamp(1rem, 3vw, 4rem);
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .lightbox-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 175, 55, 0.18);
+      transition: transform 0.3s var(--ease-out), opacity 0.25s ease;
+    }
+
+    /* Lightbox Nav Buttons */
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(20, 20, 24, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.25s ease;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: #D4AF37;
+      border-color: #D4AF37;
+      color: #0A0A0C;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    }
+
+    .lightbox-prev {
+      left: 24px;
+    }
+
+    .lightbox-next {
+      right: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav-btn {
+        width: 42px;
+        height: 42px;
+      }
+      .lightbox-prev { left: 12px; }
+      .lightbox-next { right: 12px; }
+    }
+
+    /* Floating Back to Top Button */
+    .gallery-top-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(20, 20, 24, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-top-fab.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .gallery-top-fab:hover {
+      background: #D4AF37;
+      color: #0A0A0C;
+      border-color: #D4AF37;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Orbs Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="gallery-nav">
+    <a href="index.html" class="nav-back-link" title="Return to Main Portfolio">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Back to Portfolio</span>
+    </a>
+
+    <a href="index.html" class="nav-brand">Abdul Manan</a>
+
+    <span class="nav-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+      23 Photos
+    </span>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="gallery-page-main">
+    
+    <!-- Hero Header -->
+    <header class="gallery-header">
+      <span class="gallery-eyebrow">PORTFOLIO EXCLUSIVE · PHOTO ARCHIVE</span>
+      <h1 class="gallery-title">Visual Chronicles</h1>
+      <p class="gallery-subtitle">
+        A curated visual journey through personal milestones, formal portraits, creative achievements, and behind-the-lens moments.
+      </p>
+      <div class="gallery-info-pills">
+        <span class="info-pill">3 in a Row Grid</span>
+        <span class="info-pill">High Resolution</span>
+        <span class="info-pill">Click Any Photo to Expand</span>
+      </div>
+    </header>
+
+    <!-- 3 IN A ROW PHOTO GRID (All 23 Images) -->
+    <section class="gallery-grid" id="galleryGrid" aria-label="Photo Gallery Grid">
+
+      <!-- Card 01 -->
+      <article class="gallery-card" data-index="0" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.27 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 1">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.27 AM.jpeg" alt="Abdul Manan Portrait 1" class="gallery-img" loading="eager">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#01</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 02 -->
+      <article class="gallery-card" data-index="1" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.28 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 2">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.28 AM.jpeg" alt="Abdul Manan Portrait 2" class="gallery-img" loading="eager">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#02</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 03 -->
+      <article class="gallery-card" data-index="2" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.29 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 3">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.29 AM.jpeg" alt="Abdul Manan Portrait 3" class="gallery-img" loading="eager">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#03</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 04 -->
+      <article class="gallery-card" data-index="3" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.31 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 4">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.31 AM.jpeg" alt="Abdul Manan Portrait 4" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#04</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 05 -->
+      <article class="gallery-card" data-index="4" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.33 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 5">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.33 AM.jpeg" alt="Abdul Manan Portrait 5" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#05</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 06 -->
+      <article class="gallery-card" data-index="5" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.34 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 6">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.34 AM.jpeg" alt="Abdul Manan Portrait 6" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#06</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 07 -->
+      <article class="gallery-card" data-index="6" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.35 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 7">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.35 AM.jpeg" alt="Abdul Manan Portrait 7" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#07</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 08 -->
+      <article class="gallery-card" data-index="7" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.37 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 8">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.37 AM.jpeg" alt="Abdul Manan Portrait 8" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#08</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 09 -->
+      <article class="gallery-card" data-index="8" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.38 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 9">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.38 AM (1).jpeg" alt="Abdul Manan Portrait 9" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#09</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 10 -->
+      <article class="gallery-card" data-index="9" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.38 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 10">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.38 AM.jpeg" alt="Abdul Manan Portrait 10" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#10</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 11 -->
+      <article class="gallery-card" data-index="10" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.39 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 11">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.39 AM (1).jpeg" alt="Abdul Manan Portrait 11" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#11</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 12 -->
+      <article class="gallery-card" data-index="11" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.39 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 12">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.39 AM.jpeg" alt="Abdul Manan Portrait 12" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#12</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 13 -->
+      <article class="gallery-card" data-index="12" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 13">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM (1).jpeg" alt="Abdul Manan Portrait 13" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#13</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 14 -->
+      <article class="gallery-card" data-index="13" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM (2).jpeg" tabindex="0" role="button" aria-label="Expand photo 14">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM (2).jpeg" alt="Abdul Manan Portrait 14" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#14</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 15 -->
+      <article class="gallery-card" data-index="14" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 15">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.40 AM.jpeg" alt="Abdul Manan Portrait 15" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#15</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 16 -->
+      <article class="gallery-card" data-index="15" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 16">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM (1).jpeg" alt="Abdul Manan Portrait 16" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#16</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 17 -->
+      <article class="gallery-card" data-index="16" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM (2).jpeg" tabindex="0" role="button" aria-label="Expand photo 17">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM (2).jpeg" alt="Abdul Manan Portrait 17" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#17</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 18 -->
+      <article class="gallery-card" data-index="17" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 18">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.41 AM.jpeg" alt="Abdul Manan Portrait 18" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#18</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 19 -->
+      <article class="gallery-card" data-index="18" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 19">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM (1).jpeg" alt="Abdul Manan Portrait 19" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#19</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 20 -->
+      <article class="gallery-card" data-index="19" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM (2).jpeg" tabindex="0" role="button" aria-label="Expand photo 20">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM (2).jpeg" alt="Abdul Manan Portrait 20" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#20</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 21 -->
+      <article class="gallery-card" data-index="20" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 21">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.42 AM.jpeg" alt="Abdul Manan Portrait 21" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#21</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 22 -->
+      <article class="gallery-card" data-index="21" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.43 AM (1).jpeg" tabindex="0" role="button" aria-label="Expand photo 22">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.43 AM (1).jpeg" alt="Abdul Manan Portrait 22" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#22</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 23 -->
+      <article class="gallery-card" data-index="22" data-src="my gallery/WhatsApp Image 2026-09-16 at 11.53.43 AM.jpeg" tabindex="0" role="button" aria-label="Expand photo 23">
+        <div class="gallery-card-inner">
+          <img src="my gallery/WhatsApp Image 2026-09-16 at 11.53.43 AM.jpeg" alt="Abdul Manan Portrait 23" class="gallery-img" loading="lazy">
+          <div class="gallery-card-overlay">
+            <span class="card-index-tag">#23</span>
+            <span class="card-expand-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              Expand
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="gallery-footer">
+      <p class="footer-left-info">
+        © 2026 Abdul Manan · Visual Chronicles Archive.
+      </p>
+      <a href="index.html" class="footer-back-cta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Return to Portfolio</span>
+      </a>
+    </footer>
+
+  </main>
+
+  <!-- Fullscreen Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo Viewer">
+    <div class="lightbox-topbar">
+      <span id="lightboxCounter" class="lightbox-counter">Photo 01 / 23</span>
+      <div class="lightbox-actions">
+        <a id="lightboxDownloadBtn" href="#" download class="lightbox-btn" title="Download Photo" aria-label="Download Photo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </a>
+        <button type="button" id="lightboxCloseBtn" class="lightbox-btn lightbox-close-btn" title="Close (Esc)" aria-label="Close photo viewer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="lightbox-stage" id="lightboxStage">
+      <button type="button" id="lightboxPrevBtn" class="lightbox-nav-btn lightbox-prev" title="Previous (Left Arrow)" aria-label="Previous photo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="lightbox-img-wrap">
+        <img id="lightboxImg" src="" alt="Abdul Manan High Resolution Photo" class="lightbox-img">
+      </div>
+
+      <button type="button" id="lightboxNextBtn" class="lightbox-nav-btn lightbox-next" title="Next (Right Arrow)" aria-label="Next photo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Scroll To Top Button -->
+  <button type="button" id="galleryTopFab" class="gallery-top-fab" title="Back to Top" aria-label="Back to Top">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    (function () {
+      'use strict';
+
+      let cards = Array.from(document.querySelectorAll('.gallery-card'));
+      const lightboxModal = document.getElementById('lightboxModal');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxCounter = document.getElementById('lightboxCounter');
+      const lightboxDownloadBtn = document.getElementById('lightboxDownloadBtn');
+      const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+      const lightboxPrevBtn = document.getElementById('lightboxPrevBtn');
+      const lightboxNextBtn = document.getElementById('lightboxNextBtn');
+      const lightboxStage = document.getElementById('lightboxStage');
+      const galleryTopFab = document.getElementById('galleryTopFab');
+
+      let currentIndex = 0;
+      let totalImages = cards.length;
+      let imageSources = cards.map(c => c.getAttribute('data-src'));
+
+      function openLightbox(index) {
+        if (totalImages === 0) return;
+        currentIndex = (index + totalImages) % totalImages;
+        updateLightboxContent();
+        lightboxModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function updateLightboxContent() {
+        const src = imageSources[currentIndex];
+        const numFormatted = String(currentIndex + 1).padStart(2, '0');
+        const totalFormatted = String(totalImages).padStart(2, '0');
+
+        lightboxImg.style.opacity = '0.4';
+        lightboxImg.style.transform = 'scale(0.97)';
+
+        const temp = new Image();
+        temp.onload = () => {
+          lightboxImg.src = src;
+          lightboxImg.style.opacity = '1';
+          lightboxImg.style.transform = 'scale(1)';
+        };
+        temp.src = src;
+
+        lightboxCounter.textContent = `Photo ${numFormatted} / ${totalFormatted}`;
+        lightboxDownloadBtn.href = src;
+        lightboxDownloadBtn.setAttribute('download', `Abdul_Manan_Photo_${numFormatted}.jpeg`);
+      }
+
+      function showNext() {
+        openLightbox(currentIndex + 1);
+      }
+
+      function showPrev() {
+        openLightbox(currentIndex - 1);
+      }
+
+      function bindCardListeners() {
+        cards.forEach((card, i) => {
+          card.addEventListener('click', () => openLightbox(i));
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openLightbox(i);
+            }
+          });
+        });
+      }
+
+      // Dynamic CMS Hydration
+      async function hydrateGalleryFromCMS() {
+        let cmsData = null;
+        const local = localStorage.getItem('abdulmanan_portfolio_cms_data');
+        if (local) {
+          try { cmsData = JSON.parse(local); } catch (e) {}
+        }
+        if (!cmsData) {
+          try {
+            const res = await fetch('data/portfolio-data.json');
+            if (res.ok) cmsData = await res.json();
+          } catch (e) {}
+        }
+
+        if (cmsData && Array.isArray(cmsData.gallery) && cmsData.gallery.length > 0) {
+          const grid = document.getElementById('galleryGrid');
+          if (grid) {
+            grid.innerHTML = '';
+            cmsData.gallery.forEach((photo, idx) => {
+              const num = String(idx + 1).padStart(2, '0');
+              const card = document.createElement('article');
+              card.className = 'gallery-card';
+              card.setAttribute('data-index', idx);
+              card.setAttribute('data-src', photo.src);
+              card.setAttribute('tabindex', '0');
+              card.setAttribute('role', 'button');
+              card.setAttribute('aria-label', `Expand photo ${idx + 1}`);
+              card.innerHTML = `
+                <div class="gallery-card-inner">
+                  <img src="${photo.src}" alt="${photo.title || 'Abdul Manan Portrait'}" class="gallery-img" loading="${idx < 3 ? 'eager' : 'lazy'}">
+                  <div class="gallery-card-overlay">
+                    <span class="card-index-tag">#${num}</span>
+                    <span class="card-expand-pill">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                      Expand
+                    </span>
+                  </div>
+                </div>
+              `;
+              grid.appendChild(card);
+            });
+
+            cards = Array.from(document.querySelectorAll('.gallery-card'));
+            totalImages = cards.length;
+            imageSources = cards.map(c => c.getAttribute('data-src'));
+
+            // Update badge
+            document.querySelectorAll('.nav-badge').forEach(badge => {
+              badge.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                ${totalImages} Photos
+              `;
+            });
+
+            bindCardListeners();
+          }
+        } else {
+          bindCardListeners();
+        }
+      }
+
+      hydrateGalleryFromCMS();
+
+      // Controls event listeners
+      lightboxCloseBtn.addEventListener('click', closeLightbox);
+      lightboxNextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+      lightboxPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+
+      // Click on background closes lightbox
+      lightboxStage.addEventListener('click', (e) => {
+        if (e.target === lightboxStage || e.target.classList.contains('lightbox-img-wrap')) {
+          closeLightbox();
+        }
+      });
+
+      // Keyboard navigation
+      window.addEventListener('keydown', (e) => {
+        if (!lightboxModal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext();
+        if (e.key === 'ArrowLeft') showPrev();
+      });
+
+      // Mobile Touch Swipe Handling
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      lightboxStage.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lightboxStage.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 45) {
+          if (diff < 0) showNext();
+          else showPrev();
+        }
+      }, { passive: true });
+
+      // Back to top floating button
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          galleryTopFab.classList.add('visible');
+        } else {
+          galleryTopFab.classList.remove('visible');
+        }
+      });
+
+      galleryTopFab.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+    })();
+  </script>
+</body>
+</html>

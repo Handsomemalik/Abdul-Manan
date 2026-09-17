@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel &amp; CMS — Abdul Manan</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       ADMIN CMS STYLES — DARK LUXURY EDITION
+       ========================================================================== */
+    :root {
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+      --font-grotesk: 'Space Grotesk', monospace;
+
+      --color-bg: #09090B;
+      --color-surface: #121215;
+      --color-surface-card: #18181D;
+      --color-border: rgba(255, 255, 255, 0.09);
+      --color-border-hover: rgba(255, 255, 255, 0.18);
+      --color-text: #FFFFFF;
+      --color-text-muted: #9494A0;
+      --color-gold: #D4AF37;
+      --color-gold-light: #F5D061;
+      --color-accent: #6366F1;
+      --color-success: #10B981;
+      --color-danger: #EF4444;
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Ambient Glow */
+    .admin-ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.12;
+    }
+    .orb-1 { top: -10%; left: 20%; width: 500px; height: 500px; background: var(--color-gold); }
+    .orb-2 { bottom: -10%; right: 15%; width: 600px; height: 600px; background: var(--color-accent); }
+
+    /* ==========================================================================
+       1. LOGIN GATE MODAL
+       ========================================================================== */
+    .login-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(9, 9, 11, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transition: opacity 0.4s var(--ease), visibility 0.4s ease;
+    }
+    .login-gate.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: var(--color-surface);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.12);
+      text-align: center;
+      position: relative;
+    }
+    .login-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--color-gold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .login-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: #FFFFFF;
+    }
+    .login-desc {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.75rem;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-group {
+      text-align: left;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-grotesk);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: #FFFFFF;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--color-gold);
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+    .btn-login {
+      background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%);
+      color: #0A0A0C;
+      font-family: var(--font-grotesk);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    }
+    .login-error {
+      color: var(--color-danger);
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      min-height: 20px;
+    }
+
+    /* ==========================================================================
+       2. DASHBOARD MAIN LAYOUT
+       ========================================================================== */
+    .admin-app {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation Bar */
+    .admin-navbar {
+      background: rgba(18, 18, 21, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.85rem clamp(1.2rem, 3vw, 2.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .admin-badge {
+      font-family: var(--font-grotesk);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #D4AF37;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .admin-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #FFFFFF;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: var(--font-grotesk);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: 1px solid var(--color-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text);
+    }
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+    .btn-save-primary {
+      background: linear-gradient(135deg, #D4AF37 0%, #C59A27 100%);
+      color: #0A0A0C;
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      font-weight: 700;
+    }
+    .btn-save-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+      color: #000000;
+    }
+    .btn-logout {
+      color: #EF4444;
+      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .btn-logout:hover {
+      background: #EF4444;
+      color: #FFFFFF;
+    }
+
+    /* Tab Bar Navigation */
+    .admin-tabs-bar {
+      background: rgba(15, 15, 18, 0.95);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 clamp(1.2rem, 3vw, 2.5rem);
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .admin-tabs-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      font-family: var(--font-grotesk);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: 1rem 0.2rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.25s ease;
+    }
+    .tab-btn:hover { color: #FFFFFF; }
+    .tab-btn.active {
+      color: #D4AF37;
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #D4AF37;
+      box-shadow: 0 0 12px #D4AF37;
+    }
+
+    /* Main Container */
+    .admin-content {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 3vw, 3rem) clamp(1.2rem, 3vw, 2.5rem);
+      flex: 1;
+    }
+    .tab-panel {
+      display: none;
+      animation: tabFadeIn 0.3s var(--ease);
+    }
+    .tab-panel.active { display: block; }
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dashboard Metric Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-family: var(--font-grotesk);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .sync-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--color-success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      margin-top: 0.5rem;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Form Cards & Panels */
+    .section-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: clamp(1.2rem, 3vw, 2rem);
+      margin-bottom: 2rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.4rem;
+      color: #FFFFFF;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 768px) {
+      .grid-2col { grid-template-columns: 1fr; }
+    }
+
+    /* Projects Table / Cards */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-item-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      transition: all 0.25s ease;
+    }
+    .project-item-card:hover {
+      border-color: var(--color-border-hover);
+      transform: translateY(-2px);
+    }
+    .project-item-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 260px;
+    }
+    .project-item-index {
+      font-family: var(--font-grotesk);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      background: rgba(212, 175, 55, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .project-item-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #FFFFFF;
+    }
+    .project-item-cat {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      font-family: var(--font-grotesk);
+    }
+    .project-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Gallery Grid in Admin */
+    .admin-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .admin-gallery-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4 / 5;
+    }
+    .admin-gallery-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .admin-gallery-actions {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 9, 11, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      padding: 10px;
+    }
+    .admin-gallery-card:hover .admin-gallery-actions {
+      opacity: 1;
+    }
+    .admin-gallery-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #D4AF37;
+      font-family: var(--font-grotesk);
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Modal / Drawer */
+    .drawer-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s var(--ease);
+    }
+    .drawer-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drawer-box {
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--color-surface);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+    }
+    .drawer-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 1rem;
+    }
+
+    /* Toast */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #18181D;
+      color: #FFFFFF;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-family: var(--font-grotesk);
+      font-size: 0.85rem;
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(30px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s var(--ease);
+    }
+    .admin-toast.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Orbs -->
+  <div class="admin-ambient" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+  </div>
+
+  <!-- =========================================================================
+       1. PASSWORD GATE LOGIN MODAL
+       ========================================================================= -->
+  <div id="loginGate" class="login-gate">
+    <div class="login-box">
+      <div class="login-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2 class="login-title">Admin Panel</h2>
+      <p class="login-desc">Enter your master password to manage content, case studies, and gallery images.</p>
+
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label class="form-label" for="adminPassword">Master Password</label>
+          <div class="input-wrap">
+            <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+        </div>
+        <button type="submit" class="btn-login">
+          <span>Unlock Admin Panel</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+        <div id="loginError" class="login-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. ADMIN APP MAIN SHELL
+       ========================================================================= -->
+  <div class="admin-app">
+    
+    <!-- Top Navbar -->
+    <header class="admin-navbar">
+      <div class="nav-brand-group">
+        <span class="admin-badge">Admin CMS</span>
+        <span class="admin-title">Abdul Manan</span>
+      </div>
+
+      <div class="nav-actions">
+        <a href="index.html" target="_blank" class="btn-action" title="Open public portfolio">
+          <span>View Site</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+        <button type="button" id="btnSaveAll" class="btn-action btn-save-primary" title="Save changes live">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Save Changes</span>
+        </button>
+        <button type="button" id="btnLogout" class="btn-action btn-logout" title="Lock and exit">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab Buttons -->
+    <nav class="admin-tabs-bar">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="hero">Hero &amp; Profile</button>
+      <button class="tab-btn" data-tab="projects">Projects &amp; Case Studies</button>
+      <button class="tab-btn" data-tab="gallery">Gallery Manager</button>
+      <button class="tab-btn" data-tab="skills">Skills &amp; Services</button>
+      <button class="tab-btn" data-tab="sync">Data &amp; Sync</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+
+      <!-- =====================================================================
+           TAB 1: OVERVIEW
+           ===================================================================== -->
+      <section id="tab-overview" class="tab-panel active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="statProjectsCount" class="stat-num">16</div>
+            <div class="stat-label">Total Projects</div>
+          </div>
+          <div class="stat-card">
+            <div id="statGalleryCount" class="stat-num">23</div>
+            <div class="stat-label">Gallery Photos</div>
+          </div>
+          <div class="stat-card">
+            <div id="statSkillsCount" class="stat-num">9</div>
+            <div class="stat-label">Active Skills</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="statStorageMode">Live</div>
+            <div class="stat-label">Sync Connection</div>
+            <div class="sync-status-pill">
+              <span class="status-dot"></span>
+              <span id="syncStatusText">Local Storage Sync Active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-header">
+            <h3 class="section-title">Quick Actions &amp; Instructions</h3>
+          </div>
+          <p style="color: var(--color-text-muted); margin-bottom: 1.25rem;">
+            Welcome to your portfolio CMS. From here, you can update any text, add or edit project case studies, upload gallery images, and adjust skills without touching code.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-action btn-save-primary" onclick="switchTab('projects')">
+              Manage Projects
+            </button>
+            <button type="button" class="btn-action" onclick="switchTab('gallery')">
+              Manage Gallery
+            </button>
+            <button type="button" class="btn-action" onclick="exportDataJson()">
+              Download Data Backup (.json)
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: HERO & PROFILE
+           ===================================================================== -->
+      <section id="tab-hero" class="tab-panel">
+        <div class="section-box">
+          <div class="section-header">
+            <h3 class="section-title">Personal Details &amp; Hero Section</h3>
+          </div>
+          <form id="heroProfileForm">
+            <div class="grid-2col">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" id="profFirstName" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" id="profLastName" class="form-input" required>
+              </div>
+            </div>
+
+            <div class="grid-2col" style="margin-top: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Professional Title</label>
+                <input type="text" id="profTitle" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Location</label>
+                <input type="text" id="profLocation" class="form-input" required>
+              </div>
+            </div>
+
+            <div class="grid-2col" style="margin-top: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Experience Badge (e.g. 4+ Yrs Exp)</label>
+                <input type="text" id="profExpYears" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Projects Completed Badge (e.g. 25+ Projects Completed)</label>
+                <input type="text" id="profProjectsCompleted" class="form-input">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="form-label">Hero Tagline</label>
+              <input type="text" id="profTagline" class="form-input">
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="form-label">About Bio</label>
+              <textarea id="profBio" class="form-textarea" rows="4"></textarea>
+            </div>
+
+            <h4 style="font-family: var(--font-display); font-style: italic; margin: 1.5rem 0 1rem; color: #D4AF37;">Contact &amp; Social Links</h4>
+            <div class="grid-2col">
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="profEmail" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="text" id="profPhone" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp URL</label>
+                <input type="url" id="profWhatsapp" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">GitHub Profile</label>
+                <input type="url" id="profGithub" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">LinkedIn Profile</label>
+                <input type="url" id="profLinkedin" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">X / Twitter</label>
+                <input type="url" id="profTwitter" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instagram</label>
+                <input type="url" id="profInstagram" class="form-input">
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: PROJECTS & CASE STUDIES
+           ===================================================================== -->
+      <section id="tab-projects" class="tab-panel">
+        <div class="section-box">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Projects &amp; Case Studies</h3>
+              <p style="font-size: 0.8rem; color: var(--color-text-muted);">Manage portfolio works, live URLs, and interactive case study modal text.</p>
+            </div>
+            <button type="button" class="btn-action btn-save-primary" onclick="openProjectModal(null)">
+              + Add New Project
+            </button>
+          </div>
+
+          <div id="projectsListContainer" class="projects-list">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: GALLERY MANAGER
+           ===================================================================== -->
+      <section id="tab-gallery" class="tab-panel">
+        <div class="section-box">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Gallery Photos (23 Images)</h3>
+              <p style="font-size: 0.8rem; color: var(--color-text-muted);">Manage photos appearing on the 3-in-a-row personal gallery page.</p>
+            </div>
+            <button type="button" class="btn-action btn-save-primary" onclick="openAddPhotoModal()">
+              + Add New Photo
+            </button>
+          </div>
+
+          <div id="galleryGridContainer" class="admin-gallery-grid">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: SKILLS & SERVICES
+           ===================================================================== -->
+      <section id="tab-skills" class="tab-panel">
+        <div class="section-box">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Skills &amp; Expertise</h3>
+              <p style="font-size: 0.8rem; color: var(--color-text-muted);">Configure technical competencies displayed in the Skills grid.</p>
+            </div>
+            <button type="button" class="btn-action btn-save-primary" onclick="openAddSkillModal()">
+              + Add New Skill
+            </button>
+          </div>
+
+          <div id="skillsListContainer" class="projects-list">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 6: DATA & SYNC
+           ===================================================================== -->
+      <section id="tab-sync" class="tab-panel">
+        <div class="section-box">
+          <div class="section-header">
+            <h3 class="section-title">Data Synchronization &amp; Backups</h3>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <h4 style="color: #FFFFFF; margin-bottom: 0.5rem;">Download Data File (`portfolio-data.json`)</h4>
+              <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                Download your updated JSON file to place into the <code>data/</code> folder, ensuring your changes appear permanently for all visitors worldwide.
+              </p>
+              <button type="button" class="btn-action btn-save-primary" onclick="exportDataJson()">
+                Download portfolio-data.json
+              </button>
+            </div>
+
+            <hr style="border-color: var(--color-border);">
+
+            <div>
+              <h4 style="color: #FFFFFF; margin-bottom: 0.5rem;">Import JSON Backup</h4>
+              <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                Restore your content from an existing backup JSON file.
+              </p>
+              <input type="file" id="importJsonFile" accept=".json" style="display: none;" onchange="importDataJson(event)">
+              <button type="button" class="btn-action" onclick="document.getElementById('importJsonFile').click()">
+                Choose File to Import
+              </button>
+            </div>
+
+            <hr style="border-color: var(--color-border);">
+
+            <div>
+              <h4 style="color: #FFFFFF; margin-bottom: 0.5rem;">Change Master Password</h4>
+              <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                Update the password required to access this Admin Panel.
+              </p>
+              <div style="max-width: 320px; display: flex; gap: 8px;">
+                <input type="password" id="newMasterPassword" class="form-input" placeholder="New password">
+                <button type="button" class="btn-action" onclick="changeMasterPassword()">Save</button>
+              </div>
+            </div>
+
+            <hr style="border-color: var(--color-border);">
+
+            <div>
+              <h4 style="color: #EF4444; margin-bottom: 0.5rem;">Reset to Default</h4>
+              <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                Discard all local changes and reload factory default portfolio data.
+              </p>
+              <button type="button" class="btn-action btn-logout" onclick="resetToFactoryDefault()">
+                Reset to Default Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       PROJECT EDIT / ADD MODAL DRAWER
+       ========================================================================= -->
+  <div id="projectModalDrawer" class="drawer-modal">
+    <div class="drawer-box">
+      <div class="drawer-box-header">
+        <h3 id="projectModalTitle" class="section-title">Edit Project</h3>
+        <button type="button" class="btn-action btn-sm" onclick="closeProjectModalDrawer()">✕</button>
+      </div>
+      <form id="projectEditForm" onsubmit="handleProjectSave(event)">
+        <input type="hidden" id="projEditIndex" value="-1">
+        
+        <div class="grid-2col">
+          <div class="form-group">
+            <label class="form-label">Project Title / Domain</label>
+            <input type="text" id="projTitle" class="form-input" required placeholder="e.g. toylicious.pk">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="projCategory" class="form-select" required onchange="syncCatKey()">
+              <option value="Shopify Development">Shopify Development</option>
+              <option value="AI Projects">AI Projects</option>
+              <option value="WordPress Development">WordPress Development</option>
+              <option value="Custom Web Apps">Custom Web Apps</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2col" style="margin-top: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Year</label>
+            <input type="text" id="projYear" class="form-input" placeholder="2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category Key (Filter)</label>
+            <input type="text" id="projCatKey" class="form-input" placeholder="shopify, ai, or wordpress">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label">Short Summary</label>
+          <input type="text" id="projSummary" class="form-input" required placeholder="One-line summary for project list">
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label">Tech Stack (comma separated)</label>
+          <input type="text" id="projTech" class="form-input" placeholder="Shopify, Liquid, Custom UI, Payments">
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label">Detailed Case Study Description</label>
+          <textarea id="projDescription" class="form-textarea" rows="4" required placeholder="Full case study description shown in the interactive popup modal"></textarea>
+        </div>
+
+        <div class="grid-2col" style="margin-top: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Live Project URL</label>
+            <input type="url" id="projLiveUrl" class="form-input" placeholder="https://example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">GitHub Repository URL</label>
+            <input type="url" id="projGithubUrl" class="form-input" placeholder="https://github.com/...">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem;">
+          <button type="button" class="btn-action" onclick="closeProjectModalDrawer()">Cancel</button>
+          <button type="submit" class="btn-action btn-save-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       ADD PHOTO MODAL DRAWER
+       ========================================================================= -->
+  <div id="photoModalDrawer" class="drawer-modal">
+    <div class="drawer-box" style="max-width: 500px;">
+      <div class="drawer-box-header">
+        <h3 class="section-title">Add Photo to Gallery</h3>
+        <button type="button" class="btn-action btn-sm" onclick="closePhotoModalDrawer()">✕</button>
+      </div>
+      <form id="addPhotoForm" onsubmit="handleAddPhoto(event)">
+        <div class="form-group">
+          <label class="form-label">Upload Image from Computer</label>
+          <input type="file" id="photoFileInput" class="form-input" accept="image/*" onchange="previewPhotoUpload(event)">
+        </div>
+
+        <div style="text-align: center; margin: 0.5rem 0; font-size: 0.75rem; color: var(--color-text-muted);">— OR ENTER PATH / URL —</div>
+
+        <div class="form-group">
+          <label class="form-label">Image Path / URL</label>
+          <input type="text" id="photoPathInput" class="form-input" placeholder="my gallery/photo_name.jpg">
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label">Caption</label>
+          <input type="text" id="photoCaptionInput" class="form-input" placeholder="Portrait / Event caption">
+        </div>
+
+        <div id="photoPreviewBox" style="margin-top: 1rem; text-align: center; display: none;">
+          <img id="photoPreviewImg" src="" style="max-height: 180px; border-radius: 8px; border: 1px solid var(--color-border);">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem;">
+          <button type="button" class="btn-action" onclick="closePhotoModalDrawer()">Cancel</button>
+          <button type="submit" class="btn-action btn-save-primary">Add to Gallery</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="admin-toast">
+    <span id="toastMessage">Changes saved successfully!</span>
+  </div>
+
+  <!-- =========================================================================
+       JAVASCRIPT CMS ENGINE
+       ========================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      const DEFAULT_PASSWORD = 'manan2026';
+      const STORAGE_KEY_DATA = 'abdulmanan_portfolio_cms_data';
+      const STORAGE_KEY_AUTH = 'abdulmanan_portfolio_admin_auth';
+      const STORAGE_KEY_PASS = 'abdulmanan_portfolio_admin_pass';
+
+      let currentData = null;
+
+      // ------------------------------------------------------------------------
+      // 1. Password Protection & Auth
+      // ------------------------------------------------------------------------
+      const loginGate = document.getElementById('loginGate');
+      const loginForm = document.getElementById('loginForm');
+      const adminPassword = document.getElementById('adminPassword');
+      const loginError = document.getElementById('loginError');
+      const btnLogout = document.getElementById('btnLogout');
+
+      function getMasterPassword() {
+        return localStorage.getItem(STORAGE_KEY_PASS) || DEFAULT_PASSWORD;
+      }
+
+      function checkAuth() {
+        const token = sessionStorage.getItem(STORAGE_KEY_AUTH) || localStorage.getItem(STORAGE_KEY_AUTH);
+        if (token === 'authenticated') {
+          loginGate.classList.add('unlocked');
+          initCMS();
+        } else {
+          loginGate.classList.remove('unlocked');
+        }
+      }
+
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inputPass = adminPassword.value.trim();
+        const validPass = getMasterPassword();
+
+        if (inputPass === validPass) {
+          sessionStorage.setItem(STORAGE_KEY_AUTH, 'authenticated');
+          loginGate.classList.add('unlocked');
+          adminPassword.value = '';
+          loginError.textContent = '';
+          initCMS();
+          showToast('Welcome back, Abdul Manan!');
+        } else {
+          loginError.textContent = 'Incorrect master password. Please try again.';
+          adminPassword.classList.add('shake');
+          setTimeout(() => adminPassword.classList.remove('shake'), 400);
+        }
+      });
+
+      btnLogout.addEventListener('click', () => {
+        sessionStorage.removeItem(STORAGE_KEY_AUTH);
+        localStorage.removeItem(STORAGE_KEY_AUTH);
+        loginGate.classList.remove('unlocked');
+        showToast('Logged out successfully.');
+      });
+
+      window.changeMasterPassword = function () {
+        const newPass = document.getElementById('newMasterPassword').value.trim();
+        if (newPass.length < 4) {
+          alert('Password must be at least 4 characters long.');
+          return;
+        }
+        localStorage.setItem(STORAGE_KEY_PASS, newPass);
+        document.getElementById('newMasterPassword').value = '';
+        showToast('Master password updated successfully!');
+      };
+
+      // ------------------------------------------------------------------------
+      // 2. Data Hydration & Fetching
+      // ------------------------------------------------------------------------
+      async function loadData() {
+        // 1. Check localStorage first
+        const localSaved = localStorage.getItem(STORAGE_KEY_DATA);
+        if (localSaved) {
+          try {
+            currentData = JSON.parse(localSaved);
+            renderAllSections();
+            return;
+          } catch (err) {
+            console.error('Failed to parse local data:', err);
+          }
+        }
+
+        // 2. Fetch from data/portfolio-data.json
+        try {
+          const res = await fetch('data/portfolio-data.json');
+          if (res.ok) {
+            currentData = await res.json();
+            renderAllSections();
+            return;
+          }
+        } catch (err) {
+          console.warn('Could not fetch portfolio-data.json directly:', err);
+        }
+
+        // 3. Fallback to basic structure
+        currentData = { profile: {}, projects: [], skills: [], gallery: [] };
+        renderAllSections();
+      }
+
+      // ------------------------------------------------------------------------
+      // 3. Render Dashboard Tabs & Forms
+      // ------------------------------------------------------------------------
+      function renderAllSections() {
+        if (!currentData) return;
+
+        // Stats
+        document.getElementById('statProjectsCount').textContent = currentData.projects?.length || 0;
+        document.getElementById('statGalleryCount').textContent = currentData.gallery?.length || 0;
+        document.getElementById('statSkillsCount').textContent = currentData.skills?.length || 0;
+
+        // Hero & Profile
+        const p = currentData.profile || {};
+        document.getElementById('profFirstName').value = p.firstName || '';
+        document.getElementById('profLastName').value = p.lastName || '';
+        document.getElementById('profTitle').value = p.title || '';
+        document.getElementById('profLocation').value = p.location || '';
+        document.getElementById('profExpYears').value = p.experienceYears || '';
+        document.getElementById('profProjectsCompleted').value = p.projectsCompleted || '';
+        document.getElementById('profTagline').value = p.tagline || '';
+        document.getElementById('profBio').value = p.bio || '';
+        document.getElementById('profEmail').value = p.email || '';
+        document.getElementById('profPhone').value = p.phone || '';
+        document.getElementById('profWhatsapp').value = p.whatsapp || '';
+        document.getElementById('profGithub').value = p.github || '';
+        document.getElementById('profLinkedin').value = p.linkedin || '';
+        document.getElementById('profTwitter').value = p.twitter || '';
+        document.getElementById('profInstagram').value = p.instagram || '';
+
+        // Projects List
+        renderProjectsList();
+
+        // Gallery Grid
+        renderGalleryGrid();
+
+        // Skills List
+        renderSkillsList();
+      }
+
+      function renderProjectsList() {
+        const container = document.getElementById('projectsListContainer');
+        container.innerHTML = '';
+
+        if (!currentData.projects || currentData.projects.length === 0) {
+          container.innerHTML = '<div style="color: var(--color-text-muted); text-align: center; padding: 2rem;">No projects yet. Click "+ Add New Project" above.</div>';
+          return;
+        }
+
+        currentData.projects.forEach((proj, idx) => {
+          const card = document.createElement('div');
+          card.className = 'project-item-card';
+          card.innerHTML = `
+            <div class="project-item-info">
+              <span class="project-item-index">${String(idx + 1).padStart(2, '0')}</span>
+              <div>
+                <div class="project-item-title">${escapeHtml(proj.title)}</div>
+                <div class="project-item-cat">${escapeHtml(proj.category || '')} · ${escapeHtml(proj.year || '')}</div>
+              </div>
+            </div>
+            <div class="project-item-actions">
+              <button type="button" class="btn-action btn-sm" onclick="moveProject(${idx}, -1)" title="Move Up" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>↑</button>
+              <button type="button" class="btn-action btn-sm" onclick="moveProject(${idx}, 1)" title="Move Down" ${idx === currentData.projects.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>↓</button>
+              <button type="button" class="btn-action btn-sm" onclick="openProjectModal(${idx})">Edit</button>
+              <button type="button" class="btn-action btn-sm btn-logout" onclick="deleteProject(${idx})">Delete</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function renderGalleryGrid() {
+        const container = document.getElementById('galleryGridContainer');
+        container.innerHTML = '';
+
+        if (!currentData.gallery || currentData.gallery.length === 0) {
+          container.innerHTML = '<div style="grid-column: 1/-1; color: var(--color-text-muted); text-align: center; padding: 2rem;">No photos in gallery. Click "+ Add New Photo" above.</div>';
+          return;
+        }
+
+        currentData.gallery.forEach((photo, idx) => {
+          const card = document.createElement('div');
+          card.className = 'admin-gallery-card';
+          card.innerHTML = `
+            <span class="admin-gallery-badge">#${idx + 1}</span>
+            <img src="${photo.src}" alt="${escapeHtml(photo.title || '')}" class="admin-gallery-thumb" loading="lazy">
+            <div class="admin-gallery-actions">
+              <button type="button" class="btn-action btn-sm btn-logout" onclick="deleteGalleryPhoto(${idx})">Delete</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function renderSkillsList() {
+        const container = document.getElementById('skillsListContainer');
+        container.innerHTML = '';
+
+        if (!currentData.skills || currentData.skills.length === 0) {
+          container.innerHTML = '<div style="color: var(--color-text-muted); text-align: center; padding: 2rem;">No skills added yet.</div>';
+          return;
+        }
+
+        currentData.skills.forEach((skill, idx) => {
+          const card = document.createElement('div');
+          card.className = 'project-item-card';
+          card.innerHTML = `
+            <div class="project-item-info">
+              <span class="project-item-index">${idx + 1}</span>
+              <div>
+                <div class="project-item-title">${escapeHtml(skill.name)}</div>
+                <div class="project-item-cat">${escapeHtml(skill.category || '')} · ${escapeHtml(skill.exp || '')}</div>
+              </div>
+            </div>
+            <div class="project-item-actions">
+              <button type="button" class="btn-action btn-sm btn-logout" onclick="deleteSkill(${idx})">Delete</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      // ------------------------------------------------------------------------
+      // 4. Project Operations
+      // ------------------------------------------------------------------------
+      window.openProjectModal = function (idx) {
+        const drawer = document.getElementById('projectModalDrawer');
+        const titleEl = document.getElementById('projectModalTitle');
+        const form = document.getElementById('projectEditForm');
+
+        if (idx !== null && currentData.projects[idx]) {
+          const p = currentData.projects[idx];
+          titleEl.textContent = 'Edit Project';
+          document.getElementById('projEditIndex').value = idx;
+          document.getElementById('projTitle').value = p.title || '';
+          document.getElementById('projCategory').value = p.category || 'Shopify Development';
+          document.getElementById('projCatKey').value = p.catKey || 'shopify';
+          document.getElementById('projYear').value = p.year || '2026';
+          document.getElementById('projSummary').value = p.summary || '';
+          document.getElementById('projTech').value = Array.isArray(p.tech) ? p.tech.join(', ') : (p.tech || '');
+          document.getElementById('projDescription').value = p.description || '';
+          document.getElementById('projLiveUrl').value = p.liveUrl || '';
+          document.getElementById('projGithubUrl').value = p.githubUrl || '';
+        } else {
+          titleEl.textContent = 'Add New Project';
+          form.reset();
+          document.getElementById('projEditIndex').value = '-1';
+          document.getElementById('projYear').value = new Date().getFullYear().toString();
+          document.getElementById('projCatKey').value = 'shopify';
+        }
+
+        drawer.classList.add('open');
+      };
+
+      window.closeProjectModalDrawer = function () {
+        document.getElementById('projectModalDrawer').classList.remove('open');
+      };
+
+      window.syncCatKey = function () {
+        const cat = document.getElementById('projCategory').value;
+        const keyInput = document.getElementById('projCatKey');
+        if (cat.includes('Shopify')) keyInput.value = 'shopify';
+        else if (cat.includes('AI')) keyInput.value = 'ai';
+        else if (cat.includes('WordPress')) keyInput.value = 'wordpress';
+        else keyInput.value = 'custom';
+      };
+
+      window.handleProjectSave = function (e) {
+        e.preventDefault();
+        const idx = parseInt(document.getElementById('projEditIndex').value, 10);
+        const techStr = document.getElementById('projTech').value;
+        const techArr = techStr ? techStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+        const projectObj = {
+          id: idx >= 0 ? currentData.projects[idx].id : String(currentData.projects.length + 1).padStart(2, '0'),
+          title: document.getElementById('projTitle').value.trim(),
+          category: document.getElementById('projCategory').value,
+          catKey: document.getElementById('projCatKey').value.trim() || 'shopify',
+          year: document.getElementById('projYear').value.trim(),
+          summary: document.getElementById('projSummary').value.trim(),
+          tech: techArr,
+          description: document.getElementById('projDescription').value.trim(),
+          liveUrl: document.getElementById('projLiveUrl').value.trim() || '#',
+          githubUrl: document.getElementById('projGithubUrl').value.trim() || 'https://github.com/Handsomemalik',
+          isClientProject: true
+        };
+
+        if (idx >= 0) {
+          currentData.projects[idx] = projectObj;
+          showToast(`Updated "${projectObj.title}"`);
+        } else {
+          currentData.projects.push(projectObj);
+          showToast(`Added new project "${projectObj.title}"`);
+        }
+
+        closeProjectModalDrawer();
+        renderProjectsList();
+        saveDataLocally();
+      };
+
+      window.deleteProject = function (idx) {
+        const p = currentData.projects[idx];
+        if (!p) return;
+        if (confirm(`Are you sure you want to delete "${p.title}"?`)) {
+          currentData.projects.splice(idx, 1);
+          renderProjectsList();
+          saveDataLocally();
+          showToast(`Deleted "${p.title}"`);
+        }
+      };
+
+      window.moveProject = function (idx, direction) {
+        const target = idx + direction;
+        if (target < 0 || target >= currentData.projects.length) return;
+        const temp = currentData.projects[idx];
+        currentData.projects[idx] = currentData.projects[target];
+        currentData.projects[target] = temp;
+        renderProjectsList();
+        saveDataLocally();
+      };
+
+      // ------------------------------------------------------------------------
+      // 5. Gallery Operations
+      // ------------------------------------------------------------------------
+      window.openAddPhotoModal = function () {
+        document.getElementById('addPhotoForm').reset();
+        document.getElementById('photoPreviewBox').style.display = 'none';
+        document.getElementById('photoModalDrawer').classList.add('open');
+      };
+
+      window.closePhotoModalDrawer = function () {
+        document.getElementById('photoModalDrawer').classList.remove('open');
+      };
+
+      let uploadedBase64 = null;
+      let uploadedFilename = null;
+
+      window.previewPhotoUpload = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        uploadedFilename = file.name;
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          uploadedBase64 = event.target.result;
+          document.getElementById('photoPreviewImg').src = uploadedBase64;
+          document.getElementById('photoPreviewBox').style.display = 'block';
+          document.getElementById('photoPathInput').value = `my gallery/${file.name}`;
+        };
+        reader.readAsDataURL(file);
+      };
+
+      window.handleAddPhoto = async function (e) {
+        e.preventDefault();
+        let photoSrc = document.getElementById('photoPathInput').value.trim();
+        const caption = document.getElementById('photoCaptionInput').value.trim() || 'Abdul Manan Portrait';
+
+        // Try local server upload if base64 exists
+        if (uploadedBase64) {
+          try {
+            const res = await fetch('/api/upload-image', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ filename: uploadedFilename, base64Data: uploadedBase64 })
+            });
+            if (res.ok) {
+              const resData = await res.json();
+              if (resData.relativePath) photoSrc = resData.relativePath;
+            }
+          } catch (err) {
+            // If offline, use data URL or direct path
+            photoSrc = uploadedBase64;
+          }
+        }
+
+        if (!photoSrc) {
+          alert('Please select an image file or enter an image path.');
+          return;
+        }
+
+        currentData.gallery.push({
+          id: String(currentData.gallery.length + 1),
+          src: photoSrc,
+          title: caption,
+          caption: caption
+        });
+
+        closePhotoModalDrawer();
+        renderGalleryGrid();
+        saveDataLocally();
+        showToast('Added photo to gallery!');
+      };
+
+      window.deleteGalleryPhoto = function (idx) {
+        if (confirm(`Remove photo #${idx + 1} from gallery?`)) {
+          currentData.gallery.splice(idx, 1);
+          renderGalleryGrid();
+          saveDataLocally();
+          showToast('Removed photo from gallery.');
+        }
+      };
+
+      // ------------------------------------------------------------------------
+      // 6. Skills Operations
+      // ------------------------------------------------------------------------
+      window.openAddSkillModal = function () {
+        const name = prompt('Skill Name (e.g. Next.js):');
+        if (!name) return;
+        const exp = prompt('Years of Experience (e.g. 3 yrs exp):', '3 yrs exp') || '1 yr exp';
+        const category = prompt('Category (e.g. Frontend / Design / Framework):', 'Development') || 'Skill';
+        const desc = prompt('Short Description:', 'Building scalable solutions.');
+
+        currentData.skills.push({ name, exp, category, desc });
+        renderSkillsList();
+        saveDataLocally();
+        showToast(`Added skill "${name}"`);
+      };
+
+      window.deleteSkill = function (idx) {
+        const s = currentData.skills[idx];
+        if (!s) return;
+        if (confirm(`Delete skill "${s.name}"?`)) {
+          currentData.skills.splice(idx, 1);
+          renderSkillsList();
+          saveDataLocally();
+          showToast(`Deleted "${s.name}"`);
+        }
+      };
+
+      // ------------------------------------------------------------------------
+      // 7. Save, Sync & Export
+      // ------------------------------------------------------------------------
+      function syncProfileFromForm() {
+        if (!currentData) return;
+        currentData.profile = currentData.profile || {};
+        currentData.profile.firstName = document.getElementById('profFirstName').value.trim();
+        currentData.profile.lastName = document.getElementById('profLastName').value.trim();
+        currentData.profile.title = document.getElementById('profTitle').value.trim();
+        currentData.profile.location = document.getElementById('profLocation').value.trim();
+        currentData.profile.experienceYears = document.getElementById('profExpYears').value.trim();
+        currentData.profile.projectsCompleted = document.getElementById('profProjectsCompleted').value.trim();
+        currentData.profile.tagline = document.getElementById('profTagline').value.trim();
+        currentData.profile.bio = document.getElementById('profBio').value.trim();
+        currentData.profile.email = document.getElementById('profEmail').value.trim();
+        currentData.profile.phone = document.getElementById('profPhone').value.trim();
+        currentData.profile.whatsapp = document.getElementById('profWhatsapp').value.trim();
+        currentData.profile.github = document.getElementById('profGithub').value.trim();
+        currentData.profile.linkedin = document.getElementById('profLinkedin').value.trim();
+        currentData.profile.twitter = document.getElementById('profTwitter').value.trim();
+        currentData.profile.instagram = document.getElementById('profInstagram').value.trim();
+      }
+
+      function saveDataLocally() {
+        syncProfileFromForm();
+        currentData.lastUpdated = new Date().toISOString();
+        localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(currentData));
+      }
+
+      document.getElementById('btnSaveAll').addEventListener('click', async () => {
+        saveDataLocally();
+
+        // Attempt server API save if running server.js
+        try {
+          const res = await fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentData)
+          });
+          if (res.ok) {
+            showToast('Saved to server & disk successfully!');
+            document.getElementById('syncStatusText').textContent = 'Server & Disk Synced';
+            return;
+          }
+        } catch (err) {
+          // Server not running, saved to browser localStorage
+        }
+
+        showToast('Changes saved live in browser storage!');
+      });
+
+      window.exportDataJson = function () {
+        saveDataLocally();
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentData, null, 2));
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = 'portfolio-data.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        showToast('Downloaded updated portfolio-data.json!');
+      };
+
+      window.importDataJson = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          try {
+            const imported = JSON.parse(evt.target.result);
+            currentData = imported;
+            saveDataLocally();
+            renderAllSections();
+            showToast('Imported data successfully!');
+          } catch (err) {
+            alert('Invalid JSON file.');
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      window.resetToFactoryDefault = async function () {
+        if (confirm('Are you sure you want to reset all data back to factory defaults? This clears your custom edits.')) {
+          localStorage.removeItem(STORAGE_KEY_DATA);
+          await loadData();
+          showToast('Reset to original default data.');
+        }
+      };
+
+      // ------------------------------------------------------------------------
+      // 8. Tab Navigation & Helpers
+      // ------------------------------------------------------------------------
+      window.switchTab = function (tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+        });
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+          panel.classList.toggle('active', panel.id === `tab-${tabId}`);
+        });
+      };
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTab(btn.getAttribute('data-tab'));
+        });
+      });
+
+      function showToast(msg) {
+        const toast = document.getElementById('adminToast');
+        document.getElementById('toastMessage').textContent = msg;
+        toast.classList.add('active');
+        setTimeout(() => toast.classList.remove('active'), 3200);
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function initCMS() {
+        loadData();
+      }
+
+      // Check initial auth state on page load
+      checkAuth();
+
+    })();
+  </script>
+</body>
+</html>
