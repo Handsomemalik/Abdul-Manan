@@ -810,50 +810,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* --------------------------------------------------------------------------
-     5c. Interactive Project Category Tabs & Staggered Animations
+     5c. Interactive Project Category Accordions & Category Tabs
      -------------------------------------------------------------------------- */
   const categoryTabBtns = document.querySelectorAll('.category-tab-btn');
-  let categoryBanners = document.querySelectorAll('.category-group-banner');
+
+  function toggleCategoryAccordion(bannerEl, forceState = null) {
+    const group = bannerEl.closest('.category-accordion-group');
+    if (!group) return;
+    const body = group.querySelector('.category-accordion-body');
+    const badgeText = bannerEl.querySelector('.toggle-text');
+    if (!body) return;
+
+    const isCurrentlyCollapsed = body.classList.contains('is-collapsed');
+    const shouldExpand = (forceState !== null) ? forceState : isCurrentlyCollapsed;
+
+    if (shouldExpand) {
+      body.classList.remove('is-collapsed');
+      body.classList.add('is-expanded');
+      bannerEl.classList.remove('is-collapsed');
+      bannerEl.classList.add('is-expanded');
+      bannerEl.setAttribute('aria-expanded', 'true');
+      if (badgeText) badgeText.textContent = 'Hide Projects';
+
+      // Animate project rows in with staggered entry
+      const groupRows = body.querySelectorAll('.project-row');
+      groupRows.forEach((row, idx) => {
+        row.classList.remove('filter-animated');
+        void row.offsetWidth; // Trigger reflow for animation restart
+        row.classList.add('filter-animated');
+        row.style.animationDelay = `${idx * 40}ms`;
+      });
+    } else {
+      body.classList.remove('is-expanded');
+      body.classList.add('is-collapsed');
+      bannerEl.classList.remove('is-expanded');
+      bannerEl.classList.add('is-collapsed');
+      bannerEl.setAttribute('aria-expanded', 'false');
+      if (badgeText) badgeText.textContent = 'Show Projects';
+    }
+  }
+
+  function bindAccordionBanners() {
+    const banners = document.querySelectorAll('.category-group-banner');
+    banners.forEach(banner => {
+      banner.onclick = (e) => {
+        e.preventDefault();
+        toggleCategoryAccordion(banner);
+      };
+      banner.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCategoryAccordion(banner);
+        }
+      };
+    });
+  }
 
   function filterProjectsByCategory(selectedCat) {
     // Update active tab button
     categoryTabBtns.forEach(btn => {
       if (btn.getAttribute('data-category') === selectedCat) {
         btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
       } else {
         btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
       }
     });
 
-    // Filter group banners
-    categoryBanners.forEach(banner => {
-      const bannerCat = banner.getAttribute('data-category');
-      if (selectedCat === 'all' || bannerCat === selectedCat) {
-        banner.classList.remove('filter-hidden');
+    // Filter category accordion groups
+    const groups = document.querySelectorAll('.category-accordion-group');
+    groups.forEach(group => {
+      const groupCat = group.getAttribute('data-category');
+      const banner = group.querySelector('.category-group-banner');
+      if (selectedCat === 'all' || groupCat === selectedCat) {
+        group.classList.remove('filter-hidden');
+        if (selectedCat !== 'all' && banner) {
+          // When a specific category tab is clicked, automatically expand it so projects are visible
+          toggleCategoryAccordion(banner, true);
+        }
       } else {
-        banner.classList.add('filter-hidden');
+        group.classList.add('filter-hidden');
       }
     });
-
-    // Filter and animate project rows
-    let visibleCount = 0;
-    rows.forEach(row => {
-      const rowCat = row.getAttribute('data-category');
-      if (selectedCat === 'all' || rowCat === selectedCat) {
-        row.classList.remove('filter-hidden');
-        row.classList.add('filter-animated');
-        row.style.animationDelay = `${visibleCount * 35}ms`;
-        visibleCount++;
-      } else {
-        row.classList.add('filter-hidden');
-        row.classList.remove('filter-animated');
-      }
-    });
-
-    // Clean up animation class after animation completes
-    setTimeout(() => {
-      rows.forEach(r => r.classList.remove('filter-animated'));
-    }, 600);
   }
 
   categoryTabBtns.forEach(btn => {
@@ -863,13 +902,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Clicking group banners directly filters to that category
-  categoryBanners.forEach(banner => {
-    banner.addEventListener('click', () => {
-      const cat = banner.getAttribute('data-category');
-      filterProjectsByCategory(cat);
-    });
-  });
+  // Bind initial accordions
+  bindAccordionBanners();
 
   /* --------------------------------------------------------------------------
      5d. Dynamic Hydration from CMS (portfolio-data.json / localStorage)
@@ -919,16 +953,36 @@ document.addEventListener('DOMContentLoaded', () => {
           return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        function renderGroup(catTitle, catKey, items) {
+        function renderGroup(catTitle, catKey, items, defaultExpanded = false) {
           if (items.length === 0) return '';
+          const isExpanded = defaultExpanded;
+          const collapsedClass = isExpanded ? 'is-expanded' : 'is-collapsed';
+          const bodyClass = isExpanded ? 'is-expanded' : 'is-collapsed';
+          const toggleText = isExpanded ? 'Hide Projects' : 'Show Projects';
+          const ariaExpanded = isExpanded ? 'true' : 'false';
+
+          let countLabel = `${items.length} Projects Delivered`;
+          if (catKey === 'ai') countLabel = `${items.length} Intelligent Systems`;
+          if (catKey === 'wordpress') countLabel = `${items.length} Sites Delivered`;
+
           let g = `
-            <div class="category-group-banner reveal-fade revealed" data-category="${catKey}" role="button" title="Click to filter ${catTitle}">
-              <span class="category-group-title">
-                <span class="category-group-indicator"></span>
-                ${catTitle}
-              </span>
-              <span class="category-group-count">${items.length} Projects Delivered</span>
-            </div>
+            <div class="category-accordion-group" data-category="${catKey}">
+              <div class="category-group-banner ${collapsedClass} reveal-fade revealed" data-category="${catKey}" role="button" tabindex="0" aria-expanded="${ariaExpanded}" aria-controls="accordion-${catKey}" aria-label="Toggle ${catTitle} Projects" title="Click to expand/collapse ${catTitle}">
+                <span class="category-group-title">
+                  <span class="category-group-indicator"></span>
+                  ${catTitle}
+                </span>
+                <div class="category-group-right">
+                  <span class="category-group-count">${countLabel}</span>
+                  <span class="category-group-toggle-badge">
+                    <span class="toggle-text">${toggleText}</span>
+                    <svg class="category-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div class="category-accordion-body ${bodyClass}" id="accordion-${catKey}">
           `;
           items.forEach(proj => {
             const globalIdx = projectsData.indexOf(proj);
@@ -951,6 +1005,10 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `;
           });
+          g += `
+              </div>
+            </div>
+          `;
           return g;
         }
 
@@ -977,14 +1035,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Rebind click listeners to project rows & selected featured cards
         bindModalTriggers();
 
-        // Rebind group banners
-        categoryBanners = document.querySelectorAll('.category-group-banner');
-        categoryBanners.forEach(banner => {
-          banner.addEventListener('click', () => {
-            const cat = banner.getAttribute('data-category');
-            filterProjectsByCategory(cat);
-          });
-        });
+        // Rebind accordion banners
+        bindAccordionBanners();
       }
     }
   }

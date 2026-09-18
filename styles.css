@@ -1616,9 +1616,13 @@ header.site-header.scrolled {
   opacity: 0.6;
 }
 
-/* Group Subheaders inside table */
+/* Group Subheaders inside table & Collapsible Accordions */
+.category-accordion-group {
+  position: relative;
+}
+
 .category-group-banner {
-  padding: 1.1rem clamp(1rem, 2vw, 1.5rem);
+  padding: 1.15rem clamp(1rem, 2.5vw, 1.75rem);
   background-color: var(--color-strip);
   border-bottom: 1px solid var(--color-border);
   display: flex;
@@ -1626,11 +1630,22 @@ header.site-header.scrolled {
   justify-content: space-between;
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.25s ease;
+  transition: background-color 0.25s ease, padding-left 0.25s ease;
+  outline: none;
+}
+
+.category-group-banner:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: -2px;
 }
 
 .category-group-banner:hover {
   background-color: #DCD9D1;
+  padding-left: clamp(1.2rem, 2.8vw, 2rem);
+}
+
+.category-group-banner.is-expanded {
+  background-color: #E2DFD7;
 }
 
 .category-group-title {
@@ -1650,6 +1665,18 @@ header.site-header.scrolled {
   height: 6px;
   border-radius: 50%;
   background-color: var(--color-foreground);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.category-group-banner.is-expanded .category-group-indicator {
+  transform: scale(1.3);
+  background-color: #2563EB;
+}
+
+.category-group-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .category-group-count {
@@ -1657,6 +1684,49 @@ header.site-header.scrolled {
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   color: var(--color-muted-dark);
+}
+
+.category-group-toggle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background-color: rgba(13, 13, 13, 0.06);
+  border: 1px solid rgba(13, 13, 13, 0.12);
+  font-family: var(--font-grotesk);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  transition: all 0.25s ease;
+}
+
+.category-group-banner:hover .category-group-toggle-badge {
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+  border-color: var(--color-foreground);
+}
+
+.category-group-chevron {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  stroke: currentColor;
+}
+
+.category-group-banner.is-expanded .category-group-chevron {
+  transform: rotate(180deg);
+}
+
+.category-accordion-body {
+  display: block;
+}
+
+.category-accordion-body.is-collapsed {
+  display: none !important;
 }
 
 /* Animation on project rows */
@@ -1676,7 +1746,8 @@ header.site-header.scrolled {
 }
 
 .project-row.filter-hidden,
-.category-group-banner.filter-hidden {
+.category-group-banner.filter-hidden,
+.category-accordion-group.filter-hidden {
   display: none !important;
 }
 
