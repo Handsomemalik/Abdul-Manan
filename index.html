@@ -31,6 +31,19 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Theme Pre-Initialization (Prevents Theme Flash) -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('portfolio_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Schema.org Person JSON-LD -->
   <script type="application/ld+json">
   {
@@ -48,15 +61,15 @@
     "sameAs": [
       "https://www.linkedin.com/in/abdul-manan-73bb583a5",
       "https://x.com/Handsomemalik99",
+      "https://github.com/Handsomemalik",
       "https://www.instagram.com/ur.fv.manan"
-    ],
-    "knowsAbout": ["UI/UX Design", "Web Development", "HTML", "CSS", "JavaScript", "React", "Next.js", "Figma", "Shopify", "WordPress", "AI Web Applications"]
+    ]
   }
   </script>
 </head>
 <body>
 
-  <!-- Fullscreen Smooth Animated Geometric Constellation Plexus Background -->
+  <!-- Geometric Constellation Plexus Animated Canvas (Whole Website Background) -->
   <canvas id="constellation-canvas" aria-hidden="true"></canvas>
 
   <!-- Luminous Frosted Glassmorphism Ambient Orbs & Glass Blur Veil -->
@@ -102,6 +115,29 @@
         <span class="header-email-text copy-email-btn" title="Click to copy email">manan.dev9@gmail.com</span>
         <a href="https://wa.me/923097227807" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-outline" title="WhatsApp: +92-3097227807">+92-3097227807</a>
         <a href="Abdul_Manan_CV_High_Quality.png" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-solid resume-open-trigger" title="View &amp; Download Resume / CV">Resume</a>
+        <button class="theme-toggle-btn theme-toggle-btn-mobile" type="button" aria-label="Toggle dark/light theme" title="Toggle Dark/Light Mode">
+          <span class="theme-toggle-slider">
+            <span class="theme-toggle-icon icon-sun">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="theme-toggle-icon icon-moon">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
       </div>
     </div>
 
@@ -125,6 +161,30 @@
         <a href="https://x.com/Handsomemalik99" target="_blank" rel="noopener noreferrer" class="header-social-link">X</a>
         <span class="header-sep">|</span>
         <a href="https://www.instagram.com/ur.fv.manan?stkn=NTlwZnh0Y2cxcTEx" target="_blank" rel="noopener noreferrer" class="header-social-link">Instagram</a>
+        <span class="header-sep">|</span>
+        <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle Dark/Light Mode">
+          <span class="theme-toggle-slider">
+            <span class="theme-toggle-icon icon-sun">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="theme-toggle-icon icon-moon">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
       </div>
     </div>
   </header>

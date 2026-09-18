@@ -7,6 +7,64 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* --------------------------------------------------------------------------
+     0. Interactive Theme Switcher (Dark / Light Theme with Persistence)
+     -------------------------------------------------------------------------- */
+  const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+
+  function updateThemeUI(isDark) {
+    themeToggleBtns.forEach(btn => {
+      const textEl = btn.querySelector('.theme-toggle-text');
+      if (textEl) {
+        textEl.textContent = isDark ? 'Light' : 'Dark';
+      }
+      btn.setAttribute('aria-label', isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme');
+      btn.setAttribute('title', isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme');
+    });
+  }
+
+  function initTheme() {
+    const savedTheme = localStorage.getItem('portfolio_theme');
+    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? (savedTheme === 'dark') : systemPrefersDark;
+
+    if (isDark) {
+      document.body.classList.add('dark-theme');
+      document.documentElement.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+      document.documentElement.classList.remove('dark-theme');
+    }
+    updateThemeUI(isDark);
+  }
+
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-theme');
+    document.documentElement.classList.toggle('dark-theme', isDark);
+    localStorage.setItem('portfolio_theme', isDark ? 'dark' : 'light');
+    updateThemeUI(isDark);
+    showToast(isDark ? 'Dark Theme Activated' : 'Light Theme Activated');
+  }
+
+  themeToggleBtns.forEach(btn => {
+    btn.addEventListener('click', toggleTheme);
+  });
+
+  // Listen for system theme changes if user hasn't explicitly set a preference
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('portfolio_theme')) {
+        const newIsDark = e.matches;
+        document.body.classList.toggle('dark-theme', newIsDark);
+        document.documentElement.classList.toggle('dark-theme', newIsDark);
+        updateThemeUI(newIsDark);
+      }
+    });
+  }
+
+  // Initialize theme immediately on DOM load
+  initTheme();
+
+  /* --------------------------------------------------------------------------
      1. Opening Preloader Curtain Animation
      -------------------------------------------------------------------------- */
   const preloader = document.getElementById('preloader');
@@ -1380,6 +1438,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       draw() {
+        const isDark = document.body.classList.contains('dark-theme');
         const pulse = Math.sin(this.pulseAngle) * 0.25;
         const currentRadius = Math.max(0.8, this.radius + pulse);
 
@@ -1387,14 +1446,14 @@ document.addEventListener('DOMContentLoaded', () => {
           // Glassy outer halo ring for depth-of-field glass refraction
           ctx.beginPath();
           ctx.arc(this.x, this.y, currentRadius * 2.4, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(13, 13, 13, 0.04)';
+          ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(13, 13, 13, 0.04)';
           ctx.fill();
 
           // Anchor node with subtle ambient shadow blur
           ctx.save();
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.22)';
-          ctx.shadowBlur = 8;
-          ctx.fillStyle = `rgba(13, 13, 13, ${this.baseAlpha})`;
+          ctx.shadowColor = isDark ? 'rgba(147, 197, 253, 0.5)' : 'rgba(0, 0, 0, 0.22)';
+          ctx.shadowBlur = isDark ? 10 : 8;
+          ctx.fillStyle = isDark ? `rgba(240, 244, 255, ${this.baseAlpha * 1.35})` : `rgba(13, 13, 13, ${this.baseAlpha})`;
           ctx.beginPath();
           ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
           ctx.fill();
@@ -1402,7 +1461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           ctx.beginPath();
           ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(20, 20, 20, ${this.baseAlpha})`;
+          ctx.fillStyle = isDark ? `rgba(220, 228, 255, ${this.baseAlpha * 1.15})` : `rgba(20, 20, 20, ${this.baseAlpha})`;
           ctx.fill();
         }
       }
@@ -1423,6 +1482,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animatePlexus() {
       ctx.clearRect(0, 0, width, height);
+      const isDark = document.body.classList.contains('dark-theme');
 
       const isMobile = width < 768;
       const connectDist = isMobile ? 95 : 135;
@@ -1452,7 +1512,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(13, 13, 13, ${alpha})`;
+            ctx.strokeStyle = isDark ? `rgba(210, 225, 255, ${alpha * 0.72})` : `rgba(13, 13, 13, ${alpha})`;
             ctx.lineWidth = 0.7;
             ctx.stroke();
 
@@ -1478,7 +1538,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ctx.lineTo(p2.x, p2.y);
                     ctx.lineTo(p3.x, p3.y);
                     ctx.closePath();
-                    ctx.fillStyle = `rgba(13, 13, 13, ${facetAlpha})`;
+                    ctx.fillStyle = isDark ? `rgba(140, 170, 255, ${facetAlpha * 0.6})` : `rgba(13, 13, 13, ${facetAlpha})`;
                     ctx.fill();
                   }
                 }
@@ -1500,7 +1560,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(13, 13, 13, ${mAlpha})`;
+            ctx.strokeStyle = isDark ? `rgba(165, 180, 252, ${mAlpha * 0.85})` : `rgba(13, 13, 13, ${mAlpha})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
