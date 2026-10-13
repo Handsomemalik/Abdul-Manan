@@ -49,11 +49,13 @@
   top: 0;
   left: 0;
   height: 3px;
-  width: 0%;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
   background: linear-gradient(90deg, #0D0D0D 0%, #6366F1 50%, #9333EA 100%);
   z-index: 10005;
   pointer-events: none;
-  transition: width 0.08s ease-out;
+  will-change: transform;
 }
 
 /* --------------------------------------------------------------------------
@@ -82,6 +84,7 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  contain: strict;
 }
 
 /* Diffused Luminous Ambient Orbs */
@@ -90,6 +93,7 @@
   border-radius: 50%;
   pointer-events: none;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .glass-orb-1 {
@@ -97,9 +101,9 @@
   height: clamp(350px, 45vw, 650px);
   top: -10%;
   right: -5%;
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.12) 0%, rgba(99, 102, 241, 0.07) 40%, transparent 70%);
-  filter: blur(80px);
-  animation: floatGlassOrb1 22s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, rgba(99, 102, 241, 0.05) 45%, transparent 70%);
+  filter: blur(40px);
+  animation: floatGlassOrb1 24s ease-in-out infinite alternate;
 }
 
 .glass-orb-2 {
@@ -107,9 +111,9 @@
   height: clamp(300px, 40vw, 580px);
   top: 45%;
   left: -8%;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(59, 130, 246, 0.07) 45%, transparent 70%);
-  filter: blur(90px);
-  animation: floatGlassOrb2 26s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 70%);
+  filter: blur(45px);
+  animation: floatGlassOrb2 28s ease-in-out infinite alternate;
 }
 
 .glass-orb-3 {
@@ -117,9 +121,9 @@
   height: clamp(320px, 42vw, 600px);
   bottom: -10%;
   right: 15%;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(249, 115, 22, 0.06) 45%, transparent 70%);
-  filter: blur(85px);
-  animation: floatGlassOrb3 28s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, rgba(249, 115, 22, 0.04) 50%, transparent 70%);
+  filter: blur(45px);
+  animation: floatGlassOrb3 30s ease-in-out infinite alternate;
 }
 
 .glass-orb-4 {
@@ -127,44 +131,42 @@
   height: clamp(260px, 32vw, 480px);
   top: 25%;
   right: 30%;
-  background: radial-gradient(circle, rgba(132, 204, 22, 0.08) 0%, rgba(16, 185, 129, 0.05) 50%, transparent 70%);
-  filter: blur(75px);
-  animation: floatGlassOrb4 24s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(132, 204, 22, 0.07) 0%, rgba(16, 185, 129, 0.03) 50%, transparent 70%);
+  filter: blur(40px);
+  animation: floatGlassOrb4 26s ease-in-out infinite alternate;
 }
 
 @keyframes floatGlassOrb1 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-60px, 80px) scale(1.12); }
-  100% { transform: translate(-30px, 40px) scale(0.95); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-60px, 80px, 0) scale(1.12); }
+  100% { transform: translate3d(-30px, 40px, 0) scale(0.95); }
 }
 
 @keyframes floatGlassOrb2 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(70px, -50px) scale(1.15); }
-  100% { transform: translate(40px, -90px) scale(0.92); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(70px, -50px, 0) scale(1.15); }
+  100% { transform: translate3d(40px, -90px, 0) scale(0.92); }
 }
 
 @keyframes floatGlassOrb3 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-50px, -70px) scale(1.08); }
-  100% { transform: translate(30px, -40px) scale(0.96); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-50px, -70px, 0) scale(1.08); }
+  100% { transform: translate3d(30px, -40px, 0) scale(0.96); }
 }
 
 @keyframes floatGlassOrb4 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(50px, 60px) scale(1.1); }
-  100% { transform: translate(-40px, 30px) scale(0.9); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(50px, 60px, 0) scale(1.1); }
+  100% { transform: translate3d(-40px, 30px, 0) scale(0.9); }
 }
 
-/* Frosted Glass Blur Backdrop Veil */
+/* Frosted Glass Blur Backdrop Veil (Optimized for 60fps GPU performance) */
 .glass-blur-veil {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(5px) saturate(140%);
-  -webkit-backdrop-filter: blur(5px) saturate(140%);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.55) 100%);
   pointer-events: none;
 }
 
@@ -187,11 +189,6 @@ html {
   overflow-x: hidden;
 }
 
-@media (pointer: fine) {
-  html, body, *, *::before, *::after {
-    cursor: none !important; /* Custom magnetic cursor on desktop across all elements */
-  }
-}
 
 body {
   background-color: var(--color-background);
@@ -261,80 +258,12 @@ img {
   padding-bottom: var(--spacing-section);
 }
 
-/* --------------------------------------------------------------------------
-   Custom Magnetic & Trailing Cursor
-   -------------------------------------------------------------------------- */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  background-color: var(--color-foreground);
-  border-radius: 50%;
-  pointer-events: none !important;
-  z-index: 2147483647 !important;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  will-change: left, top;
+/* High-Performance Smooth Rendering Containment */
+#about, #projects, #services, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 650px;
 }
 
-.cursor-follower {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border: 1.5px solid rgba(13, 13, 13, 0.45);
-  border-radius: 50%;
-  pointer-events: none !important;
-  z-index: 2147483646 !important;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), border-color 0.3s ease, background-color 0.3s ease;
-  will-change: left, top;
-}
-
-/* Floating View More Badge (Over Projects) */
-.view-more-badge {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background-color: #0D0D0D;
-  color: #FFFFFF;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  pointer-events: none !important;
-  z-index: 2147483647 !important;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  transition: transform 0.35s var(--ease-out-expo), opacity 0.25s ease;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  will-change: left, top, transform;
-}
-
-.view-more-badge.active {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-.view-more-badge span {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.05rem;
-  line-height: 1;
-}
-
-@media (pointer: coarse) {
-  .cursor-dot, .cursor-follower, .view-more-badge {
-    display: none !important;
-  }
-}
 
 /* --------------------------------------------------------------------------
    Opening Preloader Curtain
@@ -424,17 +353,15 @@ header.site-header {
   z-index: 100;
   padding-left: var(--spacing-gutter);
   padding-right: var(--spacing-gutter);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.85);
-  transition: background-color 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 header.site-header.scrolled {
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  background: rgba(255, 255, 255, 0.88);
   border-bottom: 1px solid rgba(220, 220, 220, 0.7);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
 }
@@ -1146,14 +1073,12 @@ header.site-header.scrolled {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  transition: transform 0.35s var(--ease-out-expo), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+  transition: transform 0.35s var(--ease-out-expo), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 }
 
 .stat-card:hover {
   background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
   border-color: rgba(13, 13, 13, 0.3);
   transform: translateY(-4px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -1256,10 +1181,10 @@ header.site-header.scrolled {
   gap: 0.85rem;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transition: all 0.35s ease;
+  transition: transform 0.25s var(--ease-out-expo), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   position: relative;
   overflow: hidden;
   user-select: none;
@@ -1269,8 +1194,6 @@ header.site-header.scrolled {
 .skill-cell:hover,
 .skill-cell.skill-active {
   background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1);
   transform: translateY(-2px);
 }
@@ -3256,8 +3179,6 @@ header.site-header.scrolled {
 
 .service-card:hover {
   background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
   border-color: rgba(13, 13, 13, 0.3);
   transform: translateY(-4px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
@@ -4259,12 +4180,5 @@ body.dark-theme .scroll-progress-bar {
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
 }
 
-body.dark-theme .cursor-dot {
-  background-color: #FFFFFF;
-}
-
-body.dark-theme .cursor-follower {
-  border-color: rgba(255, 255, 255, 0.45);
-}
 
 

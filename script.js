@@ -99,116 +99,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* --------------------------------------------------------------------------
-     2. Custom Magnetic & Trailing Cursor (Desktop fine-pointer only)
+     2. Standard Native OS Cursor (Simple, Default, Zero-Lag)
      -------------------------------------------------------------------------- */
-  const cursorDot = document.getElementById('cursor-dot');
-  const cursorFollower = document.getElementById('cursor-follower');
-  const viewMoreBadge = document.getElementById('view-more-badge');
-
-  const isTouchDevice = !window.matchMedia('(pointer: fine)').matches || 'ontouchstart' in window;
-
-  if (isTouchDevice) {
-    if (cursorDot) cursorDot.style.display = 'none';
-    if (cursorFollower) cursorFollower.style.display = 'none';
-    if (viewMoreBadge) viewMoreBadge.style.display = 'none';
-  } else if (cursorDot && cursorFollower) {
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let followerX = mouseX;
-    let followerY = mouseY;
-    let isHoveringProject = false;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-
-      if (viewMoreBadge) {
-        viewMoreBadge.style.left = `${mouseX}px`;
-        viewMoreBadge.style.top = `${mouseY}px`;
-      }
-    });
-
-    // Smooth Lerp Follower loop
-    function renderCursor() {
-      followerX += (mouseX - followerX) * 0.18;
-      followerY += (mouseY - followerY) * 0.18;
-
-      cursorFollower.style.left = `${followerX}px`;
-      cursorFollower.style.top = `${followerY}px`;
-
-      requestAnimationFrame(renderCursor);
-    }
-    requestAnimationFrame(renderCursor);
-
-    // Interactive link hover expansion
-    const interactives = document.querySelectorAll('a, button, .skill-cell, input, [role="button"]');
-    interactives.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        if (!isHoveringProject) {
-          cursorFollower.style.width = '54px';
-          cursorFollower.style.height = '54px';
-          cursorFollower.style.borderColor = 'rgba(13, 13, 13, 0.6)';
-        }
-      });
-      el.addEventListener('mouseleave', () => {
-        if (!isHoveringProject) {
-          cursorFollower.style.width = '32px';
-          cursorFollower.style.height = '32px';
-          cursorFollower.style.borderColor = 'rgba(13, 13, 13, 0.35)';
-        }
-      });
-    });
-
-    // Project row & selected card "View More" badge trigger
-    function bindCursorTriggers() {
-      const projectRows = document.querySelectorAll('.project-row, .selected-card');
-      projectRows.forEach(row => {
-        row.addEventListener('mouseenter', () => {
-          isHoveringProject = true;
-          cursorFollower.style.opacity = '0';
-          cursorDot.style.opacity = '0';
-          if (viewMoreBadge) viewMoreBadge.classList.add('active');
-        });
-        row.addEventListener('mouseleave', () => {
-          isHoveringProject = false;
-          cursorFollower.style.opacity = '1';
-          cursorDot.style.opacity = '1';
-          if (viewMoreBadge) viewMoreBadge.classList.remove('active');
-        });
-      });
-    }
-    bindCursorTriggers();
-
-    // Window boundary cursor visibility
-    document.addEventListener('mouseleave', () => {
-      cursorDot.style.opacity = '0';
-      cursorFollower.style.opacity = '0';
-      if (viewMoreBadge) viewMoreBadge.classList.remove('active');
-    });
-
-    document.addEventListener('mouseenter', () => {
-      if (!isHoveringProject) {
-        cursorDot.style.opacity = '1';
-        cursorFollower.style.opacity = '1';
-      }
-    });
-  }
 
 
   /* --------------------------------------------------------------------------
-     3. Dynamic Sticky Header on Scroll
+     3. Unified RAF-Throttled Scroll Handler (Sticky Header & Progress Bar)
      -------------------------------------------------------------------------- */
   const siteHeader = document.querySelector('header.site-header');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      siteHeader?.classList.add('scrolled');
-    } else {
-      siteHeader?.classList.remove('scrolled');
-    }
+  const scrollProgressBar = document.getElementById('scroll-progress');
+  let isScrollThrottled = false;
+  let cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
   }, { passive: true });
+
+  function handleUnifiedScroll() {
+    if (!isScrollThrottled) {
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+
+        // Sticky Header Toggle
+        if (scrollY > 30) {
+          siteHeader?.classList.add('scrolled');
+        } else {
+          siteHeader?.classList.remove('scrolled');
+        }
+
+        // Reading Progress Bar (GPU Composited scaleX)
+        if (scrollProgressBar && cachedDocHeight > 0) {
+          const ratio = Math.min(Math.max(scrollY / cachedDocHeight, 0), 1);
+          scrollProgressBar.style.transform = `scaleX(${ratio})`;
+        }
+
+        isScrollThrottled = false;
+      });
+      isScrollThrottled = true;
+    }
+  }
+
+  window.addEventListener('scroll', handleUnifiedScroll, { passive: true });
+  handleUnifiedScroll();
 
 
   /* --------------------------------------------------------------------------
@@ -725,8 +657,6 @@ document.addEventListener('DOMContentLoaded', () => {
     projectModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 
-    // Hide custom view-more badge if active
-    if (viewMoreBadge) viewMoreBadge.classList.remove('active');
   }
 
   // Close modal
@@ -1135,17 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --------------------------------------------------------------------------
      7. Top Scroll Reading Progress Indicator
      -------------------------------------------------------------------------- */
-  const scrollProgress = document.getElementById('scroll-progress');
-  function updateScrollProgress() {
-    if (!scrollProgress) return;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (docHeight > 0) {
-      const scrollPercent = (window.scrollY / docHeight) * 100;
-      scrollProgress.style.width = `${Math.min(Math.max(scrollPercent, 0), 100)}%`;
-    }
-  }
-  window.addEventListener('scroll', updateScrollProgress, { passive: true });
-  updateScrollProgress();
+  // Unified with Sticky Header in Section 3 for 60-120fps hardware-accelerated scaleX composite
 
 
   /* --------------------------------------------------------------------------
@@ -1198,51 +1118,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* --------------------------------------------------------------------------
-     9. Interactive 3D Perspective Card Tilt (Contact Cards, Stats, Portrait, Skills)
+     9. Interactive 3D Perspective Card Tilt (Contact Cards, Stats, Portrait)
      -------------------------------------------------------------------------- */
-  const tiltElements = document.querySelectorAll('.contact-card-box, .stat-card, .about-portrait-frame, .skill-cell');
+  const tiltElements = document.querySelectorAll('.contact-card-box, .stat-card, .about-portrait-frame');
 
   tiltElements.forEach(card => {
+    let rect = null;
+    let tiltRaf = null;
+
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+    }, { passive: true });
+
     card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      if (!rect) rect = card.getBoundingClientRect();
+      if (tiltRaf) return;
 
-      // Subtle tilt: max ~6.5 degrees
-      const rotX = -(y / (rect.height / 2)) * 6.5;
-      const rotY = (x / (rect.width / 2)) * 6.5;
+      tiltRaf = requestAnimationFrame(() => {
+        tiltRaf = null;
+        if (!rect) return;
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
 
-      card.style.transform = `perspective(750px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px)`;
-    });
+        const rotX = -(y / (rect.height / 2)) * 5;
+        const rotY = (x / (rect.width / 2)) * 5;
+
+        card.style.transform = `perspective(750px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translate3d(0, -4px, 0)`;
+      });
+    }, { passive: true });
 
     card.addEventListener('mouseleave', () => {
+      if (tiltRaf) {
+        cancelAnimationFrame(tiltRaf);
+        tiltRaf = null;
+      }
+      rect = null;
       card.style.transform = '';
     });
   });
 
 
   /* --------------------------------------------------------------------------
-     10. Magnetic Button Attraction Effect
+     10. Magnetic Button Attraction Effect (RAF Throttled, Zero Reflow)
      -------------------------------------------------------------------------- */
   const magneticButtons = document.querySelectorAll('.btn-cta-primary, .btn-cta-outline, .btn-pill, .category-tab-btn');
 
   magneticButtons.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+    let btnRect = null;
+    let magRaf = null;
 
-      btn.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px)`;
-    });
+    btn.addEventListener('mouseenter', () => {
+      btnRect = btn.getBoundingClientRect();
+    }, { passive: true });
+
+    btn.addEventListener('mousemove', (e) => {
+      if (!btnRect) btnRect = btn.getBoundingClientRect();
+      if (magRaf) return;
+
+      magRaf = requestAnimationFrame(() => {
+        magRaf = null;
+        if (!btnRect) return;
+        const x = e.clientX - btnRect.left - btnRect.width / 2;
+        const y = e.clientY - btnRect.top - btnRect.height / 2;
+
+        btn.style.transform = `translate3d(${(x * 0.22).toFixed(1)}px, ${(y * 0.22).toFixed(1)}px, 0)`;
+      });
+    }, { passive: true });
 
     btn.addEventListener('mouseleave', () => {
+      if (magRaf) {
+        cancelAnimationFrame(magRaf);
+        magRaf = null;
+      }
+      btnRect = null;
       btn.style.transform = '';
     });
   });
 
 
   /* --------------------------------------------------------------------------
-     11. Hero Mouse Parallax Effect
+     11. Hero Mouse Parallax Effect (RAF Throttled & Hardware-Accelerated)
      -------------------------------------------------------------------------- */
   const heroSection = document.getElementById('home');
   const heroPortrait = document.querySelector('.hero-portrait-thumb');
@@ -1252,31 +1207,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroLast = document.querySelector('.hero-last-name');
 
   if (heroSection) {
+    let heroRaf = null;
     heroSection.addEventListener('mousemove', (e) => {
-      const { clientX, clientY } = e;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const deltaX = (clientX - centerX) / centerX;
-      const deltaY = (clientY - centerY) / centerY;
+      if (heroRaf) return;
+      heroRaf = requestAnimationFrame(() => {
+        heroRaf = null;
+        const { clientX, clientY } = e;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const deltaX = (clientX - centerX) / centerX;
+        const deltaY = (clientY - centerY) / centerY;
 
-      if (heroBgImg) {
-        heroBgImg.style.transform = `scale(1.03) translate(${deltaX * -8}px, ${deltaY * -5}px)`;
-      }
-      if (heroPortrait) {
-        heroPortrait.style.transform = `translate(${deltaX * 10}px, ${deltaY * 8}px)`;
-      }
-      if (heroStar) {
-        heroStar.style.transform = `translate(${deltaX * -14}px, ${deltaY * -10}px)`;
-      }
-      if (heroFirst) {
-        heroFirst.style.transform = `translate(${deltaX * -4}px, ${deltaY * -3}px)`;
-      }
-      if (heroLast) {
-        heroLast.style.transform = `translate(${deltaX * -6}px, ${deltaY * -4}px)`;
-      }
-    });
+        if (heroBgImg) {
+          heroBgImg.style.transform = `scale(1.03) translate3d(${(deltaX * -8).toFixed(1)}px, ${(deltaY * -5).toFixed(1)}px, 0)`;
+        }
+        if (heroPortrait) {
+          heroPortrait.style.transform = `translate3d(${(deltaX * 10).toFixed(1)}px, ${(deltaY * 8).toFixed(1)}px, 0)`;
+        }
+        if (heroStar) {
+          heroStar.style.transform = `translate3d(${(deltaX * -14).toFixed(1)}px, ${(deltaY * -10).toFixed(1)}px, 0)`;
+        }
+        if (heroFirst) {
+          heroFirst.style.transform = `translate3d(${(deltaX * -4).toFixed(1)}px, ${(deltaY * -3).toFixed(1)}px, 0)`;
+        }
+        if (heroLast) {
+          heroLast.style.transform = `translate3d(${(deltaX * -6).toFixed(1)}px, ${(deltaY * -4).toFixed(1)}px, 0)`;
+        }
+      });
+    }, { passive: true });
 
     heroSection.addEventListener('mouseleave', () => {
+      if (heroRaf) {
+        cancelAnimationFrame(heroRaf);
+        heroRaf = null;
+      }
       if (heroBgImg) heroBgImg.style.transform = '';
       if (heroPortrait) heroPortrait.style.transform = '';
       if (heroStar) heroStar.style.transform = '';
@@ -1339,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* --------------------------------------------------------------------------
-     13. Geometric Constellation Plexus Background Engine (60fps Smooth Canvas)
+     13. Geometric Constellation Plexus Background Engine (60-120fps Smooth Canvas)
      Matches the minimalist dark node & hairline polygon network in user reference
      -------------------------------------------------------------------------- */
   const canvas = document.getElementById('constellation-canvas');
@@ -1347,7 +1311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.25);
 
     let particles = [];
     let mouse = { x: -1000, y: -1000, active: false };
@@ -1356,14 +1320,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function resizeCanvas() {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       
-      ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
 
       initParticles();
@@ -1382,17 +1346,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const rand = Math.random();
         if (rand < 0.14) {
           // Major focal node
-          this.radius = 3.6 + Math.random() * 1.8;
+          this.radius = 3.4 + Math.random() * 1.6;
           this.baseAlpha = 0.85 + Math.random() * 0.15;
           this.isMajor = true;
         } else if (rand < 0.54) {
           // Medium connection node
-          this.radius = 2.0 + Math.random() * 1.2;
+          this.radius = 1.9 + Math.random() * 1.1;
           this.baseAlpha = 0.55 + Math.random() * 0.25;
           this.isMajor = false;
         } else {
           // Fine ambient dust node
-          this.radius = 1.0 + Math.random() * 0.8;
+          this.radius = 0.9 + Math.random() * 0.7;
           this.baseAlpha = 0.25 + Math.random() * 0.25;
           this.isMajor = false;
         }
@@ -1403,7 +1367,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.vx = Math.cos(angle) * speed;
         this.vy = Math.sin(angle) * speed;
 
-        // Subtle breathing / organic pulsation
+        // Subtle pulsation
         this.pulseAngle = Math.random() * Math.PI * 2;
         this.pulseSpeed = 0.02 + Math.random() * 0.025;
       }
@@ -1413,7 +1377,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.y += this.vy;
         this.pulseAngle += this.pulseSpeed;
 
-        // Interactive mouse soft repulsion and gravitational deflection
+        // Interactive mouse soft repulsion
         if (mouse.active) {
           const dx = this.x - mouse.x;
           const dy = this.y - mouse.y;
@@ -1443,21 +1407,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentRadius = Math.max(0.8, this.radius + pulse);
 
         if (this.isMajor) {
-          // Glassy outer halo ring for depth-of-field glass refraction
+          // Soft ambient outer halo (pure arc, ZERO expensive shadowBlur rasterization)
           ctx.beginPath();
-          ctx.arc(this.x, this.y, currentRadius * 2.4, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(13, 13, 13, 0.04)';
+          ctx.arc(this.x, this.y, currentRadius * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(147, 197, 253, 0.14)' : 'rgba(13, 13, 13, 0.07)';
           ctx.fill();
 
-          // Anchor node with subtle ambient shadow blur
-          ctx.save();
-          ctx.shadowColor = isDark ? 'rgba(147, 197, 253, 0.5)' : 'rgba(0, 0, 0, 0.22)';
-          ctx.shadowBlur = isDark ? 10 : 8;
-          ctx.fillStyle = isDark ? `rgba(240, 244, 255, ${this.baseAlpha * 1.35})` : `rgba(13, 13, 13, ${this.baseAlpha})`;
+          // Anchor core node
           ctx.beginPath();
           ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? `rgba(240, 244, 255, ${this.baseAlpha})` : `rgba(13, 13, 13, ${this.baseAlpha})`;
           ctx.fill();
-          ctx.restore();
         } else {
           ctx.beginPath();
           ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
@@ -1468,11 +1428,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initParticles() {
-      // Density tuned for smooth 60fps across screen resolutions
+      // Density tuned for smooth 60-120fps across all screens
       const isMobile = width < 768;
       const count = isMobile
-        ? Math.min(42, Math.max(24, Math.floor((width * height) / 24000)))
-        : Math.min(85, Math.max(48, Math.floor((width * height) / 16000)));
+        ? Math.min(24, Math.max(16, Math.floor((width * height) / 36000)))
+        : Math.min(46, Math.max(28, Math.floor((width * height) / 26000)));
 
       particles = [];
       for (let i = 0; i < count; i++) {
@@ -1485,16 +1445,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const isDark = document.body.classList.contains('dark-theme');
 
       const isMobile = width < 768;
-      const connectDist = isMobile ? 95 : 135;
+      const connectDist = isMobile ? 95 : 130;
       const connectDistSq = connectDist * connectDist;
-      const facetDist = isMobile ? 65 : 85;
-      const facetDistSq = facetDist * facetDist;
-      const mouseDist = 145;
+      const mouseDist = 140;
       const mouseDistSq = mouseDist * mouseDist;
 
       const pLen = particles.length;
 
-      // 1. Draw geometric connection lines and polygonal facet triangles
+      // 1. Draw geometric connection lines (clean pairs, O(N^2) without O(N^3) facet loops)
+      ctx.lineWidth = 0.7;
       for (let i = 0; i < pLen; i++) {
         const p1 = particles[i];
 
@@ -1512,38 +1471,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = isDark ? `rgba(210, 225, 255, ${alpha * 0.72})` : `rgba(13, 13, 13, ${alpha})`;
-            ctx.lineWidth = 0.7;
+            ctx.strokeStyle = isDark ? `rgba(210, 225, 255, ${alpha * 0.75})` : `rgba(13, 13, 13, ${alpha})`;
             ctx.stroke();
-
-            // Check triplet for subtle translucent triangular polygon facets
-            if (distSq < facetDistSq) {
-              for (let k = j + 1; k < pLen; k++) {
-                const p3 = particles[k];
-                const dx2 = p1.x - p3.x;
-                const dy2 = p1.y - p3.y;
-                const dist2Sq = dx2 * dx2 + dy2 * dy2;
-
-                if (dist2Sq < facetDistSq) {
-                  const dx3 = p2.x - p3.x;
-                  const dy3 = p2.y - p3.y;
-                  const dist3Sq = dx3 * dx3 + dy3 * dy3;
-
-                  if (dist3Sq < facetDistSq) {
-                    const avgDist = (dist + Math.sqrt(dist2Sq) + Math.sqrt(dist3Sq)) / 3;
-                    const facetAlpha = (1 - avgDist / facetDist) * 0.025;
-
-                    ctx.beginPath();
-                    ctx.moveTo(p1.x, p1.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.lineTo(p3.x, p3.y);
-                    ctx.closePath();
-                    ctx.fillStyle = isDark ? `rgba(140, 170, 255, ${facetAlpha * 0.6})` : `rgba(13, 13, 13, ${facetAlpha})`;
-                    ctx.fill();
-                  }
-                }
-              }
-            }
           }
         }
 
@@ -1561,7 +1490,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.strokeStyle = isDark ? `rgba(165, 180, 252, ${mAlpha * 0.85})` : `rgba(13, 13, 13, ${mAlpha})`;
-            ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }
