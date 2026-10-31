@@ -684,7 +684,7 @@
       <section id="tab-overview" class="tab-panel active">
         <div class="stats-grid">
           <div class="stat-card">
-            <div id="statProjectsCount" class="stat-num">16</div>
+            <div id="statProjectsCount" class="stat-num">20</div>
             <div class="stat-label">Total Projects</div>
           </div>
           <div class="stat-card">
@@ -960,9 +960,10 @@
           <div class="form-group">
             <label class="form-label">Category</label>
             <select id="projCategory" class="form-select" required onchange="syncCatKey()">
-              <option value="Shopify Development">Shopify Development</option>
-              <option value="AI Projects">AI Projects</option>
+              <option value="Web Apps & UI/UX">Web Apps &amp; UI/UX</option>
+              <option value="AI & Automation">AI &amp; Automation</option>
               <option value="WordPress Development">WordPress Development</option>
+              <option value="Shopify Development">Shopify Development</option>
               <option value="Custom Web Apps">Custom Web Apps</option>
             </select>
           </div>
@@ -1135,13 +1136,18 @@
       // 2. Data Hydration & Fetching
       // ------------------------------------------------------------------------
       async function loadData() {
-        // 1. Check localStorage first
+        // 1. Check localStorage first (require v3.0.0 with CV projects)
         const localSaved = localStorage.getItem(STORAGE_KEY_DATA);
         if (localSaved) {
           try {
-            currentData = JSON.parse(localSaved);
-            renderAllSections();
-            return;
+            const parsed = JSON.parse(localSaved);
+            if (parsed && parsed.version === '3.0.0') {
+              currentData = parsed;
+              renderAllSections();
+              return;
+            } else {
+              localStorage.removeItem(STORAGE_KEY_DATA);
+            }
           } catch (err) {
             console.error('Failed to parse local data:', err);
           }
@@ -1324,10 +1330,11 @@
       window.syncCatKey = function () {
         const cat = document.getElementById('projCategory').value;
         const keyInput = document.getElementById('projCatKey');
-        if (cat.includes('Shopify')) keyInput.value = 'shopify';
+        if (cat.includes('Web Apps') || cat.includes('UI/UX')) keyInput.value = 'webapp';
+        else if (cat.includes('Shopify')) keyInput.value = 'shopify';
         else if (cat.includes('AI')) keyInput.value = 'ai';
         else if (cat.includes('WordPress')) keyInput.value = 'wordpress';
-        else keyInput.value = 'custom';
+        else keyInput.value = 'webapp';
       };
 
       window.handleProjectSave = function (e) {

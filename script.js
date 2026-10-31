@@ -174,6 +174,152 @@ document.addEventListener('DOMContentLoaded', () => {
   let projectsData = [
     {
       id: '01',
+      title: 'Devfolio – Portfolio Builder Platform',
+      category: 'Full-Stack Web App',
+      catKey: 'webapp',
+      year: '2026',
+      isFeatured: true,
+      projectType: 'Full-Stack Platform · CV Featured',
+      role: 'Full-Stack Web Developer & UI Designer',
+      summary: 'Full-stack site where professionals create a portfolio & share via public link — 4 themes, 4 PDF CV designs & password-protected editing.',
+      tech: ['Node.js', 'Express', 'SQLite', 'EJS', 'PDF Export', 'Password Auth'],
+      description: 'Built a full-stack site where professionals create a portfolio and share it through a public link. Added 4 portfolio themes and 4 CV designs with the CV downloadable as a PDF, plus password-protected editing so each user can update their own portfolio later.',
+      caseStudy: {
+        overview: 'A full-stack portfolio and CV builder web application designed to let professionals launch a customizable public portfolio and downloadable PDF resume.',
+        myRole: 'Full-stack architecture, Node.js & Express backend routes, SQLite database design, EJS templating, and responsive multi-theme UI development.',
+        problemGoal: 'Enable professionals to create and share a polished online portfolio and downloadable PDF CV via a public link without coding, while securing future updates behind password protection.',
+        designDev: 'Engineered with Node.js, Express, SQLite, and EJS templates, featuring 4 switchable portfolio themes, 4 downloadable PDF CV layouts, and password-protected user editing.',
+        keyFeatures: [
+          'Built a full-stack site where professionals create a portfolio and share it through a public link',
+          'Added 4 portfolio themes and 4 CV designs, with the CV downloadable as a PDF',
+          'Set up password-protected editing so each user can update their own portfolio later',
+          'Persistent SQLite database storage with dynamic EJS server-side rendering'
+        ],
+        technology: 'Node.js, Express, SQLite, EJS, HTML5, CSS3, JavaScript',
+        finalResult: 'A complete full-stack portfolio builder supporting multi-theme public links, PDF CV downloads, and secure password-protected editing.'
+      },
+      liveUrl: '#',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '02',
+      title: 'SunnyBite – Restaurant Website',
+      category: 'Web & AI Integration',
+      catKey: 'webapp',
+      year: '2026',
+      isFeatured: true,
+      projectType: 'Live Restaurant Web App · CV Featured',
+      role: 'UI/UX Design & Full-Stack Development',
+      summary: 'Pastel, fully responsive restaurant website (I-8, Islamabad) with animated dish visuals, AI ordering chatbot & code-free admin panel.',
+      tech: ['HTML5/CSS3', 'JavaScript', 'AI Chatbot', 'Admin Panel', 'Vercel', 'Responsive Design'],
+      description: 'Designed and built a pastel, fully responsive restaurant website for SunnyBite (I-8, Islamabad) with animated dish visuals, an integrated AI chatbot that answers menu/location questions and takes food orders, and a password-protected admin panel for code-free menu updates.',
+      caseStudy: {
+        overview: 'A modern, pastel-themed interactive restaurant website for SunnyBite (I-8, Islamabad), combining animated dish visuals with AI-assisted ordering and a code-free CMS admin panel.',
+        myRole: 'End-to-end UI/UX design, responsive frontend development, AI chatbot integration, password-protected admin panel implementation, and mobile layout QA.',
+        problemGoal: 'Create an engaging digital dining experience that answers customer questions and takes food orders automatically via AI while allowing restaurant staff to manage menu items without touching code.',
+        designDev: 'Crafted a pastel responsive interface with animated dish visuals, integrated an conversational AI ordering assistant, built a password-protected admin dashboard, and resolved mobile-specific layout bugs without altering the desktop layout.',
+        keyFeatures: [
+          'Designed and built a pastel, fully responsive restaurant website with animated dish visuals',
+          'Added an AI chatbot that answers questions about the menu, location and contact details, and takes food orders',
+          'Created a password-protected admin panel to edit menu items, images and content without touching code',
+          'Fixed mobile-only layout problems, such as an oversized footer, without changing the desktop design'
+        ],
+        technology: 'HTML5, CSS3, JavaScript, AI Chatbot Integration, Admin Panel, Vercel',
+        finalResult: 'Deployed live on Vercel with full mobile responsiveness, automated AI food ordering, and self-service menu management.'
+      },
+      liveUrl: 'https://sunny-bite-fawn.vercel.app/',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '03',
+      title: 'Roastery – Coffee Shop Mobile App (UI/UX)',
+      category: 'UI/UX Mobile App Design',
+      catKey: 'webapp',
+      year: '2026',
+      isFeatured: true,
+      projectType: 'Figma Mobile UI/UX · CV Featured',
+      role: 'UI/UX Designer (Mobile App & Design System)',
+      summary: '7 mobile screens (splash to order confirmed), clickable prototype & design system in an espresso, copper & cream palette.',
+      tech: ['Figma', 'Mobile App UI', 'Interactive Prototype', 'Design System', 'Fraunces & DM Sans'],
+      description: 'Designed 7 mobile screens in Figma for Roastery Coffee Shop — splash, welcome, home, menu, product detail, checkout, and order confirmed — complete with a clickable prototype and a design system page covering colors, fonts, and reusable components.',
+      caseStudy: {
+        overview: 'A 7-screen mobile application UI/UX design and interactive Figma prototype crafted for a specialty coffee shop with a warm, premium aesthetic.',
+        myRole: 'Mobile UX flow mapping, 7-screen high-fidelity UI design, interactive Figma prototyping, typography pairing, and design system documentation.',
+        problemGoal: 'Design an intuitive mobile coffee ordering journey from splash screen to order confirmation with consistent typography, color tokens, and reusable UI components.',
+        designDev: 'Structured a complete Figma design system using an espresso, copper, and cream color palette paired with Fraunces and DM Sans fonts across 7 linked mobile screens.',
+        keyFeatures: [
+          'Designed 7 mobile screens: splash, welcome, home, menu, product detail, checkout and order confirmed',
+          'Built a clickable prototype and a design system page covering colors, fonts and components',
+          'Chose an espresso, copper and cream palette with Fraunces and DM Sans fonts for a warm, premium feel',
+          'Published interactive UI/UX showcase on LinkedIn'
+        ],
+        technology: 'Figma, Mobile App UI/UX, Interactive Prototyping, Design Systems, Fraunces & DM Sans',
+        finalResult: 'A cohesive 7-screen clickable mobile prototype and design system delivering a warm, premium coffee ordering experience.'
+      },
+      liveUrl: 'https://www.linkedin.com/in/abdul-manan-73bb583a5?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '04',
+      title: 'Vertex Digital – Business Website',
+      category: 'WordPress Development',
+      catKey: 'wordpress',
+      year: '2026',
+      isFeatured: true,
+      projectType: 'Digital Agency Website · CV Featured',
+      role: 'WordPress Developer · Hunarmand Punjab Final Project',
+      summary: 'Live digital agency website on a registered domain with Services covering Web Development, UI/UX Design, Logo & Branding and SEO.',
+      tech: ['WordPress', 'Elementor', 'Services Architecture', 'SEO', 'Live Domain'],
+      description: 'Built and launched a live digital agency website on a registered domain as the Hunarmand Punjab Program final project, featuring a comprehensive Services page covering Web Development, UI/UX Design, Logo & Branding, and SEO.',
+      caseStudy: {
+        overview: 'A live digital agency business website built with WordPress and Elementor on a registered domain for the Hunarmand Punjab Program final project.',
+        myRole: 'WordPress configuration on a live domain, Elementor page building, Services page design, responsive layout tuning, and SEO setup.',
+        problemGoal: 'Launch a professional, conversion-ready digital agency website that clearly presents core creative and technical services on a live domain.',
+        designDev: 'Built responsive agency pages in WordPress using Elementor, organizing dedicated service sections for Web Development, UI/UX Design, Logo & Branding, and SEO.',
+        keyFeatures: [
+          'Built and launched a live digital agency website on a registered domain',
+          'Created a Services page covering Web Development, UI/UX Design, Logo & Branding and SEO',
+          'Completed and submitted for official Hunarmand Punjab Program final project verification',
+          'Responsive layout across mobile, tablet, and desktop devices'
+        ],
+        technology: 'WordPress, Elementor, HTML5, CSS3, Responsive Design, SEO',
+        finalResult: 'Successfully launched live on a registered domain and verified as the Hunarmand Punjab Program final capstone project.'
+      },
+      liveUrl: 'https://drive.google.com/file/d/1QpepDIVXR3fhMxHcohLHY-frIufQ526P/view?usp=drive_link',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '05',
+      title: 'AI Lead Capture & Auto-Reply System',
+      category: 'AI & Workflow Automation',
+      catKey: 'ai',
+      year: '2025',
+      isFeatured: true,
+      projectType: 'AI Workflow Automation · CV Featured',
+      role: 'AI & Workflow Automation Developer',
+      summary: 'n8n webhook workflow using AI to classify leads (Sales, Support, Spam), log to Google Sheets, send personalized Gmail replies & Telegram alerts.',
+      tech: ['n8n', 'OpenAI / Gemini', 'Google Sheets', 'Gmail', 'Telegram', 'Webhooks'],
+      description: 'Built an end-to-end n8n workflow that captures website contact-form submissions through a webhook, uses AI (OpenAI/Gemini) to classify each lead as Sales, Support, or Spam, logs every lead to Google Sheets, sends personalized email replies automatically, and triggers instant Telegram alerts with 24-hour follow-up reminders.',
+      caseStudy: {
+        overview: 'An automated AI lead capture, classification, auto-reply, and notification workflow built with n8n, OpenAI/Gemini, Google Sheets, Gmail, and Telegram.',
+        myRole: 'n8n workflow design, webhook setup, AI classification prompting, Google Sheets/Gmail/Telegram integration, error handling, and end-to-end QA testing.',
+        problemGoal: 'Automate lead triage and initial customer replies so high-priority sales inquiries receive instant attention and no lead is ever missed.',
+        designDev: 'Created a webhook-triggered n8n pipeline with AI classification nodes, automated Google Sheets logging, personalized Gmail auto-replies, priority Telegram alerts, error handling, and a 24-hour follow-up reminder.',
+        keyFeatures: [
+          'Built an n8n workflow that captures website contact-form submissions through a webhook and uses AI to classify each one as Sales, Support or Spam',
+          'Logged every lead to Google Sheets and sent each visitor a personalized email reply automatically',
+          'Set up instant Telegram alerts for the business owner, with high-priority leads flagged',
+          'Added error handling and a 24-hour follow-up reminder so no lead is missed',
+          'Tested the full workflow end to end with multiple form submissions and fixed data-mapping and failed-run issues'
+        ],
+        technology: 'n8n, OpenAI / Gemini API, Google Sheets, Gmail, Telegram Bot API, Webhooks',
+        finalResult: 'A thoroughly tested, reliable AI automation pipeline that classifies leads, replies to visitors automatically, and alerts the business owner in real time.'
+      },
+      liveUrl: '#',
+      githubUrl: 'https://github.com/Handsomemalik'
+    },
+    {
+      id: '06',
       title: 'toylicious.pk',
       category: 'Shopify Development',
       catKey: 'shopify',
@@ -202,12 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '02',
+      id: '07',
       title: 'bunaaz.com',
       category: 'Shopify Development',
       catKey: 'shopify',
       year: '2025',
-      isFeatured: true,
+      isFeatured: false,
       projectType: 'Client E-Commerce Project',
       role: 'UI/UX & Frontend Development',
       summary: 'Designer luxury apparel and eastern fashion boutique online store.',
@@ -231,12 +377,12 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '03',
+      id: '08',
       title: 'AI Email Writer',
       category: 'AI Projects',
       catKey: 'ai',
       year: '2026',
-      isFeatured: true,
+      isFeatured: false,
       projectType: 'Concept / Personal Project',
       role: 'Interface Design & Web Development',
       summary: 'Interactive modern web application for AI email-writing and smart copy generation.',
@@ -260,12 +406,12 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '04',
+      id: '09',
       title: 'ecotech.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2025',
-      isFeatured: true,
+      isFeatured: false,
       projectType: 'Client Web Project',
       role: 'Web Development & UI Design',
       summary: 'Green energy, solar technology & sustainable engineering corporate website.',
@@ -289,12 +435,12 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '05',
+      id: '10',
       title: 'AI Interviewer Agent',
       category: 'AI Projects',
       catKey: 'ai',
       year: '2025',
-      isFeatured: true,
+      isFeatured: false,
       projectType: 'Experimental Project',
       role: 'UI/UX Concept & AI Integration',
       summary: 'Interactive automated candidate assessment, mock interview & evaluation interface.',
@@ -318,12 +464,12 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '06',
+      id: '11',
       title: 'moseyparis.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
       year: '2025',
-      isFeatured: true,
+      isFeatured: false,
       projectType: 'Client Web Project',
       role: 'Web Development & Theme Customization',
       summary: 'Luxury fragrance & European lifestyle brand portal and e-commerce experience.',
@@ -347,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '07',
+      id: '12',
       title: 'tfgpak.com',
       category: 'Shopify Development',
       catKey: 'shopify',
@@ -371,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '08',
+      id: '13',
       title: 'amilya.pk',
       category: 'Shopify Development',
       catKey: 'shopify',
@@ -395,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '09',
+      id: '14',
       title: 'palakandmehak.com',
       category: 'Shopify Development',
       catKey: 'shopify',
@@ -419,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '10',
+      id: '15',
       title: 'royalwrist.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -443,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '11',
+      id: '16',
       title: 'luxstyle.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -467,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '12',
+      id: '17',
       title: 'ebone.net.pk',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -491,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '13',
+      id: '18',
       title: 'apnagharapnizameen.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -515,7 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '14',
+      id: '19',
       title: 'pakref.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -539,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
       githubUrl: 'https://github.com/Handsomemalik'
     },
     {
-      id: '15',
+      id: '20',
       title: 'alternativemedicinestore.com',
       category: 'WordPress Development',
       catKey: 'wordpress',
@@ -765,14 +911,16 @@ document.addEventListener('DOMContentLoaded', () => {
         <meta charset="UTF-8">
         <title>Abdul Manan — Curriculum Vitae</title>
         <style>
-          @page { size: letter portrait; margin: 0; }
+          @page { size: A4 portrait; margin: 0; }
           * { margin: 0; padding: 0; box-sizing: border-box; }
-          body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-          img { width: 100%; height: auto; max-width: 100%; display: block; }
+          body { background: #fff; }
+          img { width: 100%; height: auto; max-width: 100%; display: block; page-break-after: always; break-after: page; }
+          img:last-child { page-break-after: auto; break-after: auto; }
         </style>
       </head>
       <body>
-        <img src="Abdul_Manan_CV_High_Quality.png" alt="Abdul Manan CV" onload="window.focus(); window.print(); window.close();" />
+        <img src="Abdul_Manan_CV_Page_1.png" alt="Abdul Manan CV Page 1" />
+        <img src="Abdul_Manan_CV_Page_2.png" alt="Abdul Manan CV Page 2" onload="window.focus(); window.print(); window.close();" />
       </body>
       </html>
     `);
@@ -784,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Copy Direct CV Link
   const copyCvLinkBtn = document.getElementById('copyCvLinkBtn');
   copyCvLinkBtn?.addEventListener('click', () => {
-    const cvUrl = new URL('Abdul_Manan_CV_High_Quality.png', window.location.href).href;
+    const cvUrl = new URL('Abdul_Manan_CV.pdf', window.location.href).href;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(cvUrl).then(() => {
         showToast('CV Direct link copied to clipboard!');
@@ -900,7 +1048,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let cmsData = null;
     const local = localStorage.getItem('abdulmanan_portfolio_cms_data');
     if (local) {
-      try { cmsData = JSON.parse(local); } catch (e) {}
+      try {
+        const parsed = JSON.parse(local);
+        if (parsed && parsed.version === '3.0.0') {
+          cmsData = parsed;
+        } else {
+          localStorage.removeItem('abdulmanan_portfolio_cms_data');
+        }
+      } catch (e) {}
     }
     if (!cmsData) {
       try {
@@ -931,16 +1086,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const projectsTable = document.querySelector('.projects-table');
       if (projectsTable) {
-        const shopifyProjects = projectsData.filter(p => p.catKey === 'shopify');
+        const webappProjects = projectsData.filter(p => p.catKey === 'webapp');
         const aiProjects = projectsData.filter(p => p.catKey === 'ai');
         const wpProjects = projectsData.filter(p => p.catKey === 'wordpress');
-        const otherProjects = projectsData.filter(p => !['shopify', 'ai', 'wordpress'].includes(p.catKey));
+        const shopifyProjects = projectsData.filter(p => p.catKey === 'shopify');
+        const otherProjects = projectsData.filter(p => !['webapp', 'shopify', 'ai', 'wordpress'].includes(p.catKey));
 
         function safeHtml(str) {
           if (!str) return '';
           return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
+        let displayCounter = 0;
         function renderGroup(catTitle, catKey, items, defaultExpanded = false) {
           if (items.length === 0) return '';
           const isExpanded = defaultExpanded;
@@ -950,8 +1107,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const ariaExpanded = isExpanded ? 'true' : 'false';
 
           let countLabel = `${items.length} Projects Delivered`;
+          if (catKey === 'webapp') countLabel = `${items.length} Featured Projects`;
           if (catKey === 'ai') countLabel = `${items.length} Intelligent Systems`;
-          if (catKey === 'wordpress') countLabel = `${items.length} Sites Delivered`;
+          if (catKey === 'wordpress') countLabel = `${items.length} Corporate & E-Commerce Sites`;
 
           let g = `
             <div class="category-accordion-group" data-category="${catKey}">
@@ -973,9 +1131,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="category-accordion-body ${bodyClass}" id="accordion-${catKey}">
           `;
           items.forEach(proj => {
+            displayCounter++;
             const globalIdx = projectsData.indexOf(proj);
-            const numStr = String(globalIdx + 1).padStart(2, '0');
+            const numStr = String(displayCounter).padStart(2, '0');
             const techStr = Array.isArray(proj.tech) ? proj.tech.join(' · ') : (proj.tech || '');
+            const badgeClass = proj.isFeatured ? 'project-row-badge badge-featured' : 'project-row-badge';
             g += `
               <div class="project-row reveal-fade revealed" data-category="${proj.catKey || catKey}" data-project-index="${globalIdx}" role="button" tabindex="0">
                 <span class="project-row-year-bg">${(proj.catKey || 'PROJECT').toUpperCase()}</span>
@@ -983,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="project-row-content">
                   <div class="project-row-title-bar">
                     <span class="project-row-title">${safeHtml(proj.title)}</span>
-                    <span class="project-row-badge">${safeHtml(proj.category || '')}</span>
+                    <span class="${badgeClass}">${safeHtml(proj.category || '')}</span>
                   </div>
                   <span class="project-row-summary">${safeHtml(proj.summary || '')}</span>
                   <span class="project-row-tech">${safeHtml(techStr)}</span>
@@ -1001,11 +1161,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let newHtml = '';
-        newHtml += renderGroup('Shopify Development', 'shopify', shopifyProjects);
-        newHtml += renderGroup('AI Projects', 'ai', aiProjects);
-        newHtml += renderGroup('WordPress Development', 'wordpress', wpProjects);
+        newHtml += renderGroup('Web Apps & UI/UX Design (CV Featured)', 'webapp', webappProjects, true);
+        newHtml += renderGroup('AI & Workflow Automation', 'ai', aiProjects, false);
+        newHtml += renderGroup('WordPress Development', 'wordpress', wpProjects, false);
+        newHtml += renderGroup('Shopify Development', 'shopify', shopifyProjects, false);
         if (otherProjects.length > 0) {
-          newHtml += renderGroup('Custom Web Apps', 'custom', otherProjects);
+          newHtml += renderGroup('Custom Web Apps', 'custom', otherProjects, false);
         }
 
         projectsTable.innerHTML = newHtml;
@@ -1013,6 +1174,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update counts in tabs
         const countAll = document.querySelector('.category-tab-btn[data-category="all"] .category-tab-count');
         if (countAll) countAll.textContent = projectsData.length;
+        const countWebapp = document.querySelector('.category-tab-btn[data-category="webapp"] .category-tab-count');
+        if (countWebapp) countWebapp.textContent = webappProjects.length;
         const countShopify = document.querySelector('.category-tab-btn[data-category="shopify"] .category-tab-count');
         if (countShopify) countShopify.textContent = shopifyProjects.length;
         const countAi = document.querySelector('.category-tab-btn[data-category="ai"] .category-tab-count');

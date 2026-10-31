@@ -6,7 +6,7 @@
   <title>Abdul Manan — Curriculum Vitae (Print Edition)</title>
   <style>
     @page {
-      size: letter portrait;
+      size: A4 portrait;
       margin: 0;
     }
     * {
@@ -16,11 +16,7 @@
     }
     html, body {
       width: 100%;
-      min-height: 100%;
       background-color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
     img {
       width: 100%;
@@ -28,10 +24,17 @@
       max-width: 100%;
       display: block;
       image-rendering: -webkit-optimize-contrast;
+      page-break-after: always;
+      break-after: page;
+    }
+    img:last-child {
+      page-break-after: auto;
+      break-after: auto;
     }
   </style>
 </head>
 <body>
-  <img src="Abdul_Manan_CV_High_Quality.png" alt="Abdul Manan — Curriculum Vitae">
+  <img src="Abdul_Manan_CV_Page_1.png" alt="Abdul Manan — Curriculum Vitae (Page 1)">
+  <img src="Abdul_Manan_CV_Page_2.png" alt="Abdul Manan — Curriculum Vitae (Page 2)">
 </body>
 </html>

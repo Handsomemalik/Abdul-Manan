@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "lastUpdated": "2026-09-17T05:36:00.000Z",
+  "version": "3.0.0",
+  "lastUpdated": "2026-11-01T00:00:00.000Z",
   "profile": {
     "firstName": "Abdul",
     "lastName": "Manan",
@@ -51,28 +51,174 @@
   "skillsCategories": [
     {
       "category": "UI/UX DESIGN",
-      "skills": ["Figma", "Wireframing", "Prototyping", "Design Systems", "Responsive UI"]
+      "skills": ["Figma", "Wireframing", "Prototyping", "Design Systems", "Mobile App UI", "Responsive UI"]
     },
     {
       "category": "WEB DEVELOPMENT",
-      "skills": ["HTML", "CSS", "JavaScript", "React", "Next.js"]
+      "skills": ["HTML5", "CSS3", "JavaScript", "Node.js & Express", "SQLite & EJS", "Mobile-First Layouts"]
     },
     {
       "category": "WORDPRESS & E-COMMERCE",
-      "skills": ["WordPress", "Elementor", "WooCommerce", "Shopify"]
+      "skills": ["WordPress", "Elementor", "Theme Customization", "Contact Form 7", "WooCommerce", "Shopify"]
     },
     {
-      "category": "AI & DIGITAL PRODUCTS",
-      "skills": ["AI Integration", "AI Web Applications", "Prompt Engineering", "Automation"]
+      "category": "AI & AUTOMATION",
+      "skills": ["n8n Workflow Automation", "AI Chatbot Integration", "AI-Assisted Dev (Antigravity)", "OpenAI / Gemini APIs"]
     },
     {
-      "category": "TOOLS",
-      "skills": ["Git", "GitHub", "VS Code", "Vercel"]
+      "category": "TOOLS & DEPLOYMENT",
+      "skills": ["Git", "GitHub", "VS Code", "Vercel", "Hostinger"]
     }
   ],
   "projects": [
     {
       "id": "01",
+      "title": "Devfolio – Portfolio Builder Platform",
+      "category": "Web Apps & UI/UX",
+      "catKey": "webapp",
+      "year": "2026",
+      "isFeatured": true,
+      "projectType": "Full-Stack Web Platform",
+      "role": "Full-Stack Developer & UI/UX Designer",
+      "summary": "Full-stack platform where professionals create a portfolio & share via public link with 4 themes & 4 downloadable PDF CV designs.",
+      "tech": ["Node.js", "Express", "SQLite", "EJS", "PDF CV Generator"],
+      "description": "Built a full-stack site where professionals can create a portfolio and share it via a public link. Includes 4 portfolio themes and 4 downloadable PDF CV designs with password-protected editing so users can update their portfolio anytime.",
+      "caseStudy": {
+        "overview": "A full-stack portfolio builder platform that enables professionals to create, customize, and share their personal portfolio via a dedicated public URL, complete with downloadable PDF resumes.",
+        "myRole": "End-to-end architecture, Node.js/Express backend routing, SQLite database schema design, EJS server-side templating, and multi-theme UI/UX design.",
+        "problemGoal": "Empower developers and professionals to launch a polished personal portfolio and matching PDF CV in minutes without writing code or managing hosting.",
+        "designDev": "Engineered a modular theming system supporting 4 distinct portfolio aesthetics and 4 print-ready PDF CV layouts, backed by SQLite persistence and password-protected live editing.",
+        "keyFeatures": [
+          "Publicly shareable portfolio URLs with instant theme switching across 4 curated themes",
+          "4 downloadable, print-optimized PDF CV designs generated dynamically from user profile data",
+          "Password-protected editing dashboard allowing users to update projects and resume details anytime",
+          "Lightweight, fast SQLite database storage with Express.js server-side rendering via EJS"
+        ],
+        "technology": "Node.js, Express.js, SQLite, EJS, HTML5, CSS3, JavaScript",
+        "finalResult": "A complete full-stack web platform capable of generating both live responsive web portfolios and matching downloadable PDF CVs from a single profile."
+      },
+      "liveUrl": "https://github.com/Handsomemalik",
+      "githubUrl": "https://github.com/Handsomemalik"
+    },
+    {
+      "id": "02",
+      "title": "SunnyBite – Restaurant Website",
+      "category": "Web Apps & UI/UX",
+      "catKey": "webapp",
+      "year": "2026",
+      "isFeatured": true,
+      "projectType": "Live Restaurant Web App (I-8, Islamabad)",
+      "role": "Frontend Developer & AI Integrator",
+      "summary": "Pastel, fully responsive restaurant website with animated dish visuals, AI ordering chatbot, and password-protected admin panel.",
+      "tech": ["JavaScript", "AI Chatbot", "Admin Panel", "Responsive UI", "Vercel"],
+      "description": "Designed a pastel, fully responsive restaurant website with animated dish visuals. Integrated an AI chatbot that answers menu, location and contact questions and takes food orders, alongside a password-protected admin panel to manage menu items, prices and site content.",
+      "caseStudy": {
+        "overview": "A modern, pastel-themed digital storefront and interactive ordering experience created for SunnyBite Restaurant in I-8, Islamabad, deployed live on Vercel.",
+        "myRole": "UI/UX design, animated dish presentation, conversational AI chatbot integration, password-protected admin panel development, and mobile layout optimization.",
+        "problemGoal": "Create an inviting digital dining experience that automates customer menu inquiries and table/food orders while giving restaurant staff an easy way to update dishes and prices.",
+        "designDev": "Crafted a warm pastel aesthetic with smooth dish animations, built an embedded AI assistant trained on menu/location data, and resolved mobile-specific viewport and navigation edge cases.",
+        "keyFeatures": [
+          "Pastel, appetizing visual aesthetic with smooth animated dish showcases",
+          "Integrated AI chatbot that answers menu, location, and contact questions and takes food orders directly",
+          "Password-protected Admin Panel to manage menu items, pricing, and live website content",
+          "Dedicated mobile-only layout enhancements ensuring a seamless experience across smartphones and tablets"
+        ],
+        "technology": "HTML5, CSS3, Vanilla JavaScript, AI Chatbot API, Vercel, GitHub",
+        "finalResult": "A live, responsive restaurant web application deployed on Vercel that combines visual storytelling with automated AI customer service and effortless menu management."
+      },
+      "liveUrl": "https://sunny-bite-fawn.vercel.app/",
+      "githubUrl": "https://github.com/Handsomemalik"
+    },
+    {
+      "id": "03",
+      "title": "Roastery – Coffee Shop Mobile App (UI/UX)",
+      "category": "Web Apps & UI/UX",
+      "catKey": "webapp",
+      "year": "2026",
+      "isFeatured": true,
+      "projectType": "Mobile App UI/UX Case Study",
+      "role": "UI/UX & Product Designer",
+      "summary": "7-screen coffee shop mobile app UI/UX in Figma with interactive prototype, espresso/copper/cream palette, and reusable design system.",
+      "tech": ["Figma", "Mobile App UI", "Interactive Prototype", "Design System", "Fraunces & DM Sans"],
+      "description": "Designed 7 mobile screens: splash, welcome, home, menu, product detail, checkout, and order confirmed. Built a clickable prototype with a reusable component library and design system using an espresso, copper & cream color palette with Fraunces and DM Sans fonts.",
+      "caseStudy": {
+        "overview": "A comprehensive 7-screen mobile application UI/UX design and interactive Figma prototype for Roastery, a specialty coffee shop brand.",
+        "myRole": "End-to-end Mobile UI/UX Designer — user flow mapping, wireframing, component library architecture, typography pairing, and interactive Figma prototyping.",
+        "problemGoal": "Design a warm, tactile mobile ordering ritual that lets coffee lovers customize espresso drinks and complete checkout in under a minute.",
+        "designDev": "Established a cohesive design system anchored by an artisanal espresso, copper, and cream color palette paired with editorial Fraunces headings and clean DM Sans body typography.",
+        "keyFeatures": [
+          "7 high-fidelity mobile screens: Splash, Welcome, Home, Menu, Product Detail, Checkout, and Order Confirmed",
+          "Fully clickable interactive Figma prototype demonstrating smooth screen-to-screen transitions",
+          "Reusable component library and tokenized design system for buttons, cards, modifiers, and navigation bars",
+          "Curated Espresso, Copper & Cream color palette paired with Fraunces and DM Sans typography"
+        ],
+        "technology": "Figma, Interactive Prototyping, Mobile Design Systems, Component Variants, Auto Layout",
+        "finalResult": "A polished, production-ready mobile UI/UX case study and interactive prototype showcased on LinkedIn."
+      },
+      "liveUrl": "https://www.linkedin.com/in/abdul-manan-73bb583a5?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      "githubUrl": "https://github.com/Handsomemalik"
+    },
+    {
+      "id": "04",
+      "title": "Vertex Digital – Business Website",
+      "category": "WordPress Development",
+      "catKey": "wordpress",
+      "year": "2026",
+      "isFeatured": true,
+      "projectType": "Hunarmand Punjab Program Final Project",
+      "role": "WordPress & Elementor Developer",
+      "summary": "Live digital agency website built on a registered domain covering Web Development, UI/UX Design, Logo & Branding, and SEO.",
+      "tech": ["WordPress", "Elementor", "Agency Website", "SEO", "Responsive Design"],
+      "description": "Built and launched a live digital agency website on a registered domain as the final project for the Hunarmand Punjab Program. Designed a comprehensive Services experience covering Web Development, UI/UX Design, Logo & Branding, and SEO.",
+      "caseStudy": {
+        "overview": "A complete digital agency business website built and deployed on a registered domain as the capstone project for the Hunarmand Punjab Program.",
+        "myRole": "WordPress site architecture, Elementor custom page design, service taxonomy structuring, domain/hosting deployment, and on-page SEO setup.",
+        "problemGoal": "Deliver a high-converting, credible agency web presence that clearly communicates service offerings and captures client project inquiries.",
+        "designDev": "Crafted custom Elementor layouts with clear visual hierarchy, dedicated service breakdown sections, agency portfolio highlights, and responsive lead capture forms.",
+        "keyFeatures": [
+          "Live production deployment on a registered custom domain",
+          "Comprehensive Services page covering Web Development, UI/UX Design, Logo & Branding, and SEO",
+          "Conversion-focused agency landing sections with clear calls-to-action and inquiry routing",
+          "Fully responsive layout optimized across desktop, tablet, and mobile viewports"
+        ],
+        "technology": "WordPress, Elementor, Custom CSS, Responsive Web Design, On-Page SEO",
+        "finalResult": "A complete, live digital agency website successfully delivered and verified for the Hunarmand Punjab Program final assessment."
+      },
+      "liveUrl": "https://drive.google.com/file/d/1QpepDIVXR3fhMxHcohLHY-frIufQ526P/view?usp=drive_link",
+      "githubUrl": "https://github.com/Handsomemalik"
+    },
+    {
+      "id": "05",
+      "title": "AI Lead Capture & Auto-Reply System",
+      "category": "AI & Automation",
+      "catKey": "ai",
+      "year": "2025",
+      "isFeatured": true,
+      "projectType": "AI Workflow Automation System",
+      "role": "AI Automation Engineer",
+      "summary": "n8n webhook workflow using OpenAI/Gemini to classify leads (Sales, Support, Spam), log to Google Sheets, send Gmail auto-replies, and alert Telegram.",
+      "tech": ["n8n", "OpenAI / Gemini", "Google Sheets", "Gmail API", "Telegram Bot"],
+      "description": "Built an n8n webhook workflow that uses AI to classify incoming contact submissions into Sales, Support, or Spam. Automatically logs leads in Google Sheets, sends a personalized email reply via Gmail, and fires instant Telegram alerts with high-priority flagging, error handling, and a 24-hour follow-up reminder.",
+      "caseStudy": {
+        "overview": "An end-to-end automated lead triage, CRM logging, and instant response pipeline built with n8n, OpenAI/Gemini LLMs, Google Sheets, Gmail, and Telegram.",
+        "myRole": "Workflow architecture in n8n, AI prompt engineering for intent classification, Google Sheets & Gmail API integration, Telegram alert formatting, and error-handling setup.",
+        "problemGoal": "Eliminate manual lead sorting and slow response times by automatically classifying contact form submissions, filtering spam, replying to prospects immediately, and alerting sales teams in real time.",
+        "designDev": "Connected a webhook trigger to an AI classification node (Sales, Support, Spam), branched routing logic for CRM logging in Google Sheets, dynamic HTML email drafting via Gmail, and priority Telegram notifications with 24-hour follow-up scheduling.",
+        "keyFeatures": [
+          "n8n webhook pipeline using OpenAI/Gemini to classify incoming leads into Sales, Support, or Spam",
+          "Automated structured logging in Google Sheets with timestamp, intent category, and lead status",
+          "Instant personalized auto-reply emails dispatched via Gmail tailored to the user's inquiry type",
+          "Real-time Telegram alerts with high-priority lead flagging, robust error handling, and a 24-hour follow-up reminder",
+          "Tested end-to-end with simulated form payloads to verify classification accuracy and delivery reliability"
+        ],
+        "technology": "n8n Workflow Automation, OpenAI / Google Gemini API, Google Sheets, Gmail, Telegram Bot API, Webhooks",
+        "finalResult": "A reliable, production-tested AI automation workflow that responds to new leads in seconds while keeping the team notified on Telegram."
+      },
+      "liveUrl": "https://github.com/Handsomemalik",
+      "githubUrl": "https://github.com/Handsomemalik"
+    },
+    {
+      "id": "06",
       "title": "toylicious.pk",
       "category": "Shopify Development",
       "catKey": "shopify",
@@ -101,12 +247,12 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "02",
+      "id": "07",
       "title": "bunaaz.com",
       "category": "Shopify Development",
       "catKey": "shopify",
       "year": "2025",
-      "isFeatured": true,
+      "isFeatured": false,
       "projectType": "Client E-Commerce Project",
       "role": "UI/UX & Frontend Development",
       "summary": "Designer luxury apparel and eastern fashion boutique online store.",
@@ -130,12 +276,12 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "03",
+      "id": "08",
       "title": "AI Email Writer",
-      "category": "AI Projects",
+      "category": "AI & Automation",
       "catKey": "ai",
       "year": "2026",
-      "isFeatured": true,
+      "isFeatured": false,
       "projectType": "Concept / Personal Project",
       "role": "Interface Design & Web Development",
       "summary": "Interactive modern web application for AI email-writing and smart copy generation.",
@@ -159,12 +305,12 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "04",
+      "id": "09",
       "title": "ecotech.pk",
       "category": "WordPress Development",
       "catKey": "wordpress",
       "year": "2025",
-      "isFeatured": true,
+      "isFeatured": false,
       "projectType": "Client Web Project",
       "role": "Web Development & UI Design",
       "summary": "Green energy, solar technology & sustainable engineering corporate website.",
@@ -188,12 +334,12 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "05",
+      "id": "10",
       "title": "AI Interviewer Agent",
-      "category": "AI Projects",
+      "category": "AI & Automation",
       "catKey": "ai",
       "year": "2025",
-      "isFeatured": true,
+      "isFeatured": false,
       "projectType": "Experimental Project",
       "role": "UI/UX Concept & AI Integration",
       "summary": "Interactive automated candidate assessment, mock interview & evaluation interface.",
@@ -217,12 +363,12 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "06",
+      "id": "11",
       "title": "moseyparis.com",
       "category": "WordPress Development",
       "catKey": "wordpress",
       "year": "2025",
-      "isFeatured": true,
+      "isFeatured": false,
       "projectType": "Client Web Project",
       "role": "Web Development & Theme Customization",
       "summary": "Luxury fragrance & European lifestyle brand portal and e-commerce experience.",
@@ -246,7 +392,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "07",
+      "id": "12",
       "title": "tfgpak.com",
       "category": "Shopify Development",
       "catKey": "shopify",
@@ -270,7 +416,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "08",
+      "id": "13",
       "title": "amilya.pk",
       "category": "Shopify Development",
       "catKey": "shopify",
@@ -294,7 +440,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "09",
+      "id": "14",
       "title": "palakandmehak.com",
       "category": "Shopify Development",
       "catKey": "shopify",
@@ -318,7 +464,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "10",
+      "id": "15",
       "title": "royalwrist.pk",
       "category": "WordPress Development",
       "catKey": "wordpress",
@@ -342,7 +488,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "11",
+      "id": "16",
       "title": "luxstyle.pk",
       "category": "WordPress Development",
       "catKey": "wordpress",
@@ -366,7 +512,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "12",
+      "id": "17",
       "title": "ebone.net.pk",
       "category": "WordPress Development",
       "catKey": "wordpress",
@@ -390,7 +536,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "13",
+      "id": "18",
       "title": "apnagharapnizameen.com",
       "category": "WordPress Development",
       "catKey": "wordpress",
@@ -414,7 +560,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "14",
+      "id": "19",
       "title": "pakref.com",
       "category": "WordPress Development",
       "catKey": "wordpress",
@@ -438,7 +584,7 @@
       "githubUrl": "https://github.com/Handsomemalik"
     },
     {
-      "id": "15",
+      "id": "20",
       "title": "alternativemedicinestore.com",
       "category": "WordPress Development",
       "catKey": "wordpress",

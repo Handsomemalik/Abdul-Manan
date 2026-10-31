@@ -77,6 +77,22 @@
       align-items: center;
     }
 
+    @media (max-width: 767px) {
+      .cv-page-navbar {
+        padding: 12px 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .cv-back-link {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+      }
+      .cv-standalone-content {
+        padding: 16px 12px;
+        gap: 20px;
+      }
+    }
+
     /* Print Specific Media Styles */
     @media print {
       body.cv-standalone-page {
@@ -94,9 +110,23 @@
         box-shadow: none !important;
         max-width: 100% !important;
       }
+      .resume-image-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .resume-page-divider {
+        display: none !important;
+      }
       .resume-cv-img {
         width: 100% !important;
         height: auto !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .resume-cv-img:last-child {
+        page-break-after: auto;
+        break-after: auto;
       }
     }
   </style>
@@ -130,7 +160,7 @@
           <line x1="9" y1="15" x2="15" y2="15"></line>
         </svg>
         <span>Download PDF</span>
-        <span class="btn-sub-tag">621 KB</span>
+        <span class="btn-sub-tag">233 KB</span>
       </a>
 
       <a href="Abdul_Manan_CV_High_Quality.png" download="Abdul_Manan_CV.png" class="btn-resume-action" title="Download CV as Ultra-HD PNG">
@@ -159,15 +189,17 @@
       <div class="resume-doc-topbar">
         <div class="resume-doc-status">
           <span class="resume-doc-dot"></span>
-          <span>Abdul_Manan_CV_High_Quality.png</span>
+          <span>Abdul_Manan_CV.pdf · 2 Pages</span>
         </div>
         <div class="resume-doc-meta">
-          <span>Letter Portrait · 2550 × 3300 px · 300 DPI</span>
+          <span>A4 Portrait · 2480 × 3512 px / Page · 300 DPI</span>
         </div>
       </div>
 
-      <div class="resume-image-wrapper">
-        <img src="Abdul_Manan_CV_High_Quality.png" alt="Abdul Manan — Curriculum Vitae (CV)" class="resume-cv-img">
+      <div class="resume-image-wrapper" style="flex-direction: column;">
+        <img src="Abdul_Manan_CV_Page_1.png" alt="Abdul Manan — Curriculum Vitae (Page 1)" class="resume-cv-img">
+        <div class="resume-page-divider" style="width: 100%; height: 18px; background: #121214; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: var(--font-grotesk); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #71717A;">Page 02 of 02</div>
+        <img src="Abdul_Manan_CV_Page_2.png" alt="Abdul Manan — Curriculum Vitae (Page 2)" class="resume-cv-img">
       </div>
     </div>
 
@@ -203,7 +235,7 @@
             <div class="cv-card-meta">
               <span class="cv-recommended-pill">Recommended for Recruiters</span>
               <h2 class="cv-format-name">PDF Document (.pdf)</h2>
-              <span class="cv-format-size">Vector Letter Size · 621 KB</span>
+              <span class="cv-format-size">Vector 2-Page A4 · 233 KB</span>
             </div>
           </div>
 
@@ -245,7 +277,7 @@
             <div class="cv-card-meta">
               <span class="cv-format-badge-label">Lossless Master Image</span>
               <h2 class="cv-format-name">Ultra-HD PNG (.png)</h2>
-              <span class="cv-format-size">2550 × 3300 px · 300 DPI · 620 KB</span>
+              <span class="cv-format-size">2480 × 7064 px · 300 DPI · 1.5 MB</span>
             </div>
           </div>
 
